@@ -1,18 +1,15 @@
 from enum import Enum
 
-import sys
-import logging
-
 import argparse
-import tempfile
-import zipfile
+import logging
 import os
-
+import sys
+import tempfile
 import xml.etree.ElementTree as ET
-import yaml
-
+import zipfile
 
 import colorlog
+import yaml
 
 # logging
 log_colors = {
@@ -23,16 +20,16 @@ log_colors = {
     "CRITICAL": "bold_red",
 }
 
-logger_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 console_handler = colorlog.StreamHandler(sys.stdout)
 console_formatter = colorlog.ColoredFormatter(
-    f"%(log_color)s{logger_format}", log_colors=log_colors
+    f"%(log_color)s{LOGGER_FORMAT}", log_colors=log_colors
 )
 console_handler.setFormatter(console_formatter)
 
-log_file_path = "easy2homeassistant.log"
-file_handler = logging.FileHandler(log_file_path)
-file_formatter = logging.Formatter(logger_format)
+LOG_FILE_PATH = "easy2homeassistant.log"
+file_handler = logging.FileHandler(LOG_FILE_PATH)
+file_formatter = logging.Formatter(LOGGER_FORMAT)
 file_handler.setFormatter(file_formatter)
 
 logger = logging.getLogger(__name__)
@@ -55,22 +52,21 @@ yaml.add_representer(StringValue, quoted_str_representer)
 def object_to_dict(obj):
     if isinstance(obj, list):
         return [object_to_dict(item) for item in obj]
-    elif isinstance(obj, dict):
+    if isinstance(obj, dict):
         return {
             key: object_to_dict(value)
             for key, value in obj.items()
             if value is not None
         }
-    elif hasattr(obj, "__dict__"):
+    if hasattr(obj, "__dict__"):
         return {
             key: object_to_dict(value)
             for key, value in obj.__dict__.items()
             if value is not None
         }
-    elif isinstance(obj, str):
+    if isinstance(obj, str):
         return StringValue(obj)
-    else:
-        return obj
+    return obj
 
 
 def generic_representer(dumper, data):
@@ -110,7 +106,6 @@ class Cover:
     def __init__(
         self,
         name,
-        address=None,
         move_long_address=None,
         stop_address=None,
         position_address=None,
@@ -132,13 +127,13 @@ class Entities:
         self.light = light if light is not None else []
         self.cover = cover if cover is not None else []
 
-    def addEntity(self, entity):
-        if type(entity) is Light:
+    def add_entity(self, entity):
+        if isinstance(entity, Light):
             self.light.append(entity)
-        elif type(entity) is Cover:
+        elif isinstance(entity, Cover):
             self.cover.append(entity)
         else:
-            logger.critical(f"Invalid entity '{entity}'")
+            logger.critical("Invalid entity '%s'", entity)
 
 
 # xml parsing
@@ -163,36 +158,39 @@ class XMLParser:
         self.entity = None  # currently parsed entity
         self.address_attribute_name = None  # currently parsed address
 
-    def addEntity(self):
+    def add_entity(self):
         if self.entity is not None:
-            self.entities.addEntity(self.entity)
+            self.entities.add_entity(self.entity)
             self.entity = None
         else:
             logger.error("Empty entity occurred!")
 
-    def parse_group_addresses(self, groupAddresses):
-        lowestAddress = float("inf")
-        for config in groupAddresses.findall("config"):
+    def parse_group_addresses(self, group_addresses):
+        lowest_address = float("inf")
+        for config in group_addresses.findall("config"):
             address = config.get("name")
-            logger.debug(f"Parse group address '{address}'")
+            logger.debug("Parse group address '%s'", address)
             try:
-                lowestAddress = min(lowestAddress, int(address))
+                lowest_address = min(lowest_address, int(address))
             except ValueError:
-                logger.warning(f"Skip invalid groupAddress '{address}'")
+                logger.warning("Skip invalid groupAddress '%s'", address)
 
-        if lowestAddress != float("inf"):
-            setattr(self.entity, self.address_attribute_name, lowestAddress)
+        if lowest_address != float("inf"):
+            setattr(self.entity, self.address_attribute_name, lowest_address)
             logger.info(
-                f"'{self.entity.name}': Set attribute '{self.address_attribute_name}' to '{lowestAddress}'"
+                "'%s': Set attribute '%s' to '%s'",
+                self.entity.name,
+                self.address_attribute_name,
+                lowest_address,
             )
         else:
             logger.error("No group address found!")
 
     def parse_datapoints(self, datapoints):
         for config in datapoints.findall("config"):
-            for property in config.findall("property"):
-                if property.get("key") == "name":
-                    datapoint_name = property.get("value")
+            for prop in config.findall("property"):
+                if prop.get("key") == "name":
+                    datapoint_name = prop.get("value")
                     if datapoint_name in self.ADDRESS_MAP:
                         # set attribute name and search for group addresses
                         self.address_attribute_name = self.ADDRESS_MAP[datapoint_name]
@@ -200,11 +198,15 @@ class XMLParser:
                             self.parse_config(config)
                         else:
                             logger.error(
-                                f"'{self.entity.name}' has no attribute '{self.address_attribute_name}'!"
+                                "'%s' has no attribute '%s'!",
+                                self.entity.name,
+                                self.address_attribute_name,
                             )
                     else:
                         logger.info(
-                            f"'{self.entity.name}': Skip unmapped datapoint '{datapoint_name}'"
+                            "'%s': Skip unmapped datapoint '%s'",
+                            self.entity.name,
+                            datapoint_name,
                         )
 
     def parse_config(self, config):
@@ -213,19 +215,20 @@ class XMLParser:
             return
 
         name = config.get("name")
-        if name == "Context" or name == "Parameters":
-            logger.debug(f"Skip '{name}'")
+        if name in ("Context", "Parameters"):
+            logger.debug("Skip '%s'", name)
             return
-        elif name == "datapoints":
+        if name == "datapoints":
             self.parse_datapoints(config)
             return
-        elif name == "groupAddresses":
+        if name == "groupAddresses":
             self.parse_group_addresses(config)
             return
-        elif name == "FunctionalBlocks" or name.lstrip("-").isdigit():
-            logger.debug(f"Handle known config '{name}'")
+
+        if name == "FunctionalBlocks" or name.lstrip("-").isdigit():
+            logger.debug("Handle known config '%s'", name)
         else:
-            logger.warning(f"Skip unhandled config '{name}'")
+            logger.warning("Skip unhandled config '%s'", name)
             return
 
         self.parse_configs(config)
@@ -238,13 +241,13 @@ class XMLParser:
         name = ""
         kind = EntityKind.UNDEFINED
 
-        for property in channel.findall("property"):
-            if property.get("key") == "Name":
-                name = property.get("value")
+        for prop in channel.findall("property"):
+            if prop.get("key") == "Name":
+                name = prop.get("value")
                 if name == "":
-                    logger.debug(f"Skip unnamed channel: {channel.get('name')}")
-            elif property.get("key") == "Icon":
-                if property.get("value") == "icon-shutter":
+                    logger.debug("Skip unnamed channel: %s", channel.get("name"))
+            elif prop.get("key") == "Icon":
+                if prop.get("value") == "icon-shutter":
                     kind = EntityKind.COVER
                 else:
                     kind = EntityKind.LIGHT
@@ -256,15 +259,15 @@ class XMLParser:
             elif kind is EntityKind.LIGHT:
                 self.entity = Light(name)
 
-            logger.info(f"Found entity '{name}' of kind {kind}")
+            logger.info("Found entity '%s' of kind %s", name, kind)
             for config in channel.findall("config"):
                 self.parse_config(config)
-            self.addEntity()
+            self.add_entity()
 
-    def parse_channel_xml(self, channelsXml):
-        logger.info(f"Parsing xml file '{channelsXml}'")
+    def parse_channel_xml(self, channels_xml):
+        logger.info("Parsing xml file '%s'", channels_xml)
 
-        tree = ET.parse(channelsXml)
+        tree = ET.parse(channels_xml)
         root = tree.getroot()
 
         for channel in root.findall("config"):
@@ -301,25 +304,25 @@ def main():
     logger.setLevel(args.loglevel.upper())
 
     with tempfile.TemporaryDirectory() as temp_dir:
-        logger.info(f"Extracting files to temporary directory '{temp_dir}'")
+        logger.info("Extracting files to temporary directory '%s'", temp_dir)
 
         with zipfile.ZipFile(args.input, "r") as zip_ref:
             zip_ref.extractall(temp_dir)
 
         channels_xml_file = os.path.join(temp_dir, "configuration", "Channels.xml")
         if not os.path.exists(channels_xml_file):
-            logger.error(f"{channels_xml_file} not found in the extracted files.")
+            logger.error("%s not found in the extracted files.", channels_xml_file)
             return
 
         parser = XMLParser()
         entities = parser.parse_channel_xml(channels_xml_file)
 
         yaml_configuration = args.output
-        logger.info(f"Exporting entities to '{yaml_configuration}'")
+        logger.info("Exporting entities to '%s'", yaml_configuration)
         with open(yaml_configuration, "w", encoding="utf-8") as yaml_file:
             yaml_file.write(yaml.dump(entities, sort_keys=False, allow_unicode=True))
 
-        logger.info(f"Data exported to '{yaml_configuration}' successfully.")
+        logger.info("Data exported to '%s' successfully.", yaml_configuration)
 
 
 if __name__ == "__main__":
