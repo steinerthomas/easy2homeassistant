@@ -1,3 +1,5 @@
+"""A python script to convert a KNX easy configuration to a HomeAssistant YAML configuration."""
+
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
@@ -39,12 +41,12 @@ logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
 
-# yaml serialization
 class StringValue(str):
-    pass
+    """A class to represent a string value for yaml serialization."""
 
 
 def quoted_str_representer(dumper, data):
+    """A custom representer to quote strings in yaml."""
     return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
 
 
@@ -52,6 +54,7 @@ yaml.add_representer(StringValue, quoted_str_representer)
 
 
 def object_to_dict(obj):
+    """Convert an object to a dictionary for yaml serialization."""
     if isinstance(obj, list):
         return [object_to_dict(item) for item in obj]
     if isinstance(obj, dict):
@@ -72,6 +75,7 @@ def object_to_dict(obj):
 
 
 def generic_representer(dumper, data):
+    """A generic representer to convert objects to dictionaries."""
     return dumper.represent_dict(object_to_dict(data))
 
 
@@ -80,6 +84,8 @@ yaml.add_multi_representer(object, generic_representer)
 
 # data structures
 class EntityKind(Enum):
+    """An enumeration to differentiate entities."""
+
     UNDEFINED = 0
     LIGHT = 1
     COVER = 2
@@ -90,6 +96,8 @@ class EntityKind(Enum):
 
 @dataclass
 class Light:
+    """A data class to represent a light entity."""
+
     name: str
     address: int = 0
     brightness_address: Optional[int] = None
@@ -99,6 +107,8 @@ class Light:
 
 @dataclass
 class Cover:
+    """A data class to represent a cover entity."""
+
     name: str
     move_long_address: int = 0
     stop_address: int = 0
@@ -110,10 +120,14 @@ class Cover:
 
 @dataclass
 class Entities:
+    """A data class to represent a collection of entities."""
+
     light: List = field(default_factory=list)
     cover: List = field(default_factory=list)
 
     def add_entity(self, entity):
+        """Add an entity to the corresponding list."""
+
         if isinstance(entity, Light):
             self.light.append(entity)
         elif isinstance(entity, Cover):
@@ -124,6 +138,8 @@ class Entities:
 
 # xml parsing
 class XMLParser:
+    """A class to parse an easy project xml file."""
+
     ADDRESS_MAP = {
         # light
         "On/Off": "address",
@@ -145,6 +161,7 @@ class XMLParser:
         self.address_attribute_name = None  # currently parsed address
 
     def add_entity(self):
+        """Add the current entity to the entities list."""
         if self.entity is not None:
             self.entities.add_entity(self.entity)
             self.entity = None
@@ -152,6 +169,7 @@ class XMLParser:
             logger.error("Empty entity occurred!")
 
     def parse_group_addresses(self, group_addresses):
+        """Parse group addresses and set the lowest address to the currently parsed entity."""
         lowest_address = float("inf")
         for config in group_addresses.findall("config"):
             address = config.get("name")
@@ -173,6 +191,7 @@ class XMLParser:
             logger.error("No group address found!")
 
     def parse_datapoints(self, datapoints):
+        """Parse datapoints and map them to the corresponding entity attribute."""
         for config in datapoints.findall("config"):
             for prop in config.findall("property"):
                 if prop.get("key") == "name":
@@ -196,6 +215,7 @@ class XMLParser:
                         )
 
     def parse_config(self, config):
+        """Generic parser for a config element."""
         if config is None:
             logger.error("Unexpected empty config!")
             return
@@ -220,10 +240,12 @@ class XMLParser:
         self.parse_configs(config)
 
     def parse_configs(self, configs):
+        """Parse a list of config elements."""
         for config in configs.findall("config"):
             self.parse_config(config)
 
     def parse_channel(self, channel):
+        """Parse a channel element and create an entity."""
         name = ""
         kind = EntityKind.UNDEFINED
 
@@ -251,6 +273,7 @@ class XMLParser:
             self.add_entity()
 
     def parse_channel_xml(self, channels_xml):
+        """Parse the Channels.xml file and return the entities."""
         logger.info("Parsing xml file '%s'", channels_xml)
 
         tree = ET.parse(channels_xml)
@@ -262,7 +285,8 @@ class XMLParser:
         return self.entities
 
 
-def main():
+def parse_arguments():
+    """Parse command line arguments."""
     arg_parser = argparse.ArgumentParser(
         description="Process an easy project and export data to YAML."
     )
@@ -285,7 +309,12 @@ def main():
         help="Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL).",
     )
 
-    args = arg_parser.parse_args()
+    return arg_parser.parse_args()
+
+
+def main():
+    """Main function to extract and convert an easy project to a HomeAssistant configuration."""
+    args = parse_arguments()
 
     logger.setLevel(args.loglevel.upper())
 
