@@ -1,4 +1,6 @@
+from dataclasses import dataclass, field
 from enum import Enum
+from typing import List, Optional
 
 import argparse
 import logging
@@ -86,46 +88,30 @@ class EntityKind(Enum):
         return f"{self.name} ({self.value})"
 
 
+@dataclass
 class Light:
-    def __init__(
-        self,
-        name,
-        address=None,
-        brightness_address=None,
-        state_address=None,
-        brightness_state_address=None,
-    ):
-        self.name = name
-        self.address = address
-        self.brightness_address = brightness_address
-        self.state_address = state_address
-        self.brightness_state_address = brightness_state_address
+    name: str
+    address: int = 0
+    brightness_address: Optional[int] = None
+    state_address: int = 0
+    brightness_state_address: Optional[int] = None
 
 
+@dataclass
 class Cover:
-    def __init__(
-        self,
-        name,
-        move_long_address=None,
-        stop_address=None,
-        position_address=None,
-        angle_address=None,
-        position_state_address=None,
-        angle_state_address=None,
-    ):
-        self.name = name
-        self.move_long_address = move_long_address
-        self.stop_address = stop_address
-        self.position_address = position_address
-        self.angle_address = angle_address
-        self.position_state_address = position_state_address
-        self.angle_state_address = angle_state_address
+    name: str
+    move_long_address: int = 0
+    stop_address: int = 0
+    position_address: int = 0
+    angle_address: int = 0
+    position_state_address: int = 0
+    angle_state_address: int = 0
 
 
+@dataclass
 class Entities:
-    def __init__(self, light=None, cover=None):
-        self.light = light if light is not None else []
-        self.cover = cover if cover is not None else []
+    light: List = field(default_factory=list)
+    cover: List = field(default_factory=list)
 
     def add_entity(self, entity):
         if isinstance(entity, Light):
