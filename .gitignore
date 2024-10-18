@@ -1,3 +1,7 @@
+build/
+dist/
+easy2homeassistant.spec
+
 easy-project.txa
 knx.yaml
 easy2homeassistant.log
