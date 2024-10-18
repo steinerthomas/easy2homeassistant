@@ -11,7 +11,7 @@ Currently [covers](https://www.home-assistant.io/integrations/knx/#cover) and [l
 - [ ] Switches ("inputs") in general, e.g. "Central off"
 
 ## Prerequisites
-Following software/packages need to be installed on your environment:
+Use pre-built binary or setup following software/packages on your environment:
 - Python >= 3.9 and PATH variable set
 - Python requirements: `pip3 install -r requirements.txt`
 - HomeAssistant setup and KNX integration installed
@@ -19,6 +19,8 @@ Following software/packages need to be installed on your environment:
 
 ## Usage
 `python easy2homeassistant.py -i <project-name>.txa -o <output-filename>.yaml`
+
+`easy2homeassistant.exe -i <project-name>.txa -o <output-filename>.yaml`
 
 ### Parameters
 | Flag | Name       | Description                        | Examples                                                        |
