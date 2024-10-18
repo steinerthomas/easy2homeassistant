@@ -1,11 +1,16 @@
+"""Tests for easy2homeassistant.py."""
+
 import unittest
 import yaml
 from easy2homeassistant import XMLParser
 
 
 class TestXMLParser(unittest.TestCase):
+    """Tests for XMLParser."""
 
-    def test_xml_parser_with_real_file(self):
+    def test_xml_parser_channels_xml(self):
+        """Test the XMLParser with a Channels.xml file."""
+
         parser = XMLParser()
         channels_xml_file = "tests/resources/configuration/Channels.xml"
         expected_output_file = "tests/resources/output.yaml"
