@@ -33,5 +33,4 @@ jobs:
         asset_name: easy2homeassistant.exe
         tag: ${{ github.ref }}
         overwrite: true
-        body: "Executable for Windows"
 
