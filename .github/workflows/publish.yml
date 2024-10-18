@@ -1,0 +1,37 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Publish binaries
+    runs-on: windows-2019
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.12'
+        architecture: 'x64'
+    - name: Install requirements
+      run: |
+        pip install -r requirements.txt
+        pip install pyinstaller
+    - name: Create binary
+      run: |
+        pyinstaller --onefile easy2homeassistant.py
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: dist/easy2homeassistant.exe
+        asset_name: easy2homeassistant.exe
+        tag: ${{ github.ref }}
+        overwrite: true
+        body: "Executable for Windows"
+
