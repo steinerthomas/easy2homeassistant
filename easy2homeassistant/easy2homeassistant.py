@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """A python script to convert a KNX easy configuration to a HomeAssistant YAML configuration."""
 
 from dataclasses import dataclass, field
