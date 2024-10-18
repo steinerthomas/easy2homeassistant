@@ -1,0 +1,384 @@
+<config name="Channels">
+  <property key="Last-Modified" value="1729265022123" type="long"/>
+  <config name="1234567890123456789">
+    <property key="Use" value="OTHER" type="string"/>
+    <property key="Name" value="Living room light dimmable" type="string"/>
+    <property key="Icon" value="icon-dimmer" type="string"/>
+    <config name="FunctionalBlocks">
+      <config name="2345678901234567891">
+        <config name="datapoints">
+          <config name="3456789012345678912">
+            <property key="name" value="Automatism deactivation status" type="string"/>
+            <config name="groupAddresses">
+              <config name="50000">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="1">
+            <property key="name" value="Automatism deactivation" type="string"/>
+            <config name="groupAddresses">
+              <config name="5001">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-2">
+            <property key="name" value="Dim value" type="string"/>
+            <config name="groupAddresses">
+              <config name="5002">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-3">
+            <property key="name" value="Dim up/down" type="string"/>
+            <config name="groupAddresses">
+              <config name="50001">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-4">
+            <property key="name" value="Priority status" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="5">
+            <property key="name" value="On/Off" type="string"/>
+            <config name="groupAddresses">
+              <config name="5004">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+              <config name="50002">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+              <config name="12000">
+                <property key="type" value="GROUP_SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-6">
+            <property key="name" value="On/Off status" type="string"/>
+            <config name="groupAddresses">
+              <config name="50004">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-7">
+            <property key="name" value="Dim value automatism" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="8">
+            <property key="name" value="Load detection start" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-9">
+            <property key="name" value="Dim value status" type="string"/>
+            <config name="groupAddresses">
+              <config name="50005">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-10">
+            <property key="name" value="Priority" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-11">
+            <property key="name" value="Timer" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="12">
+            <property key="name" value="On/Off automatism" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-13">
+            <property key="name" value="Scene" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+        </config>
+        <config name="Parameters">
+          <config name="0">
+            <property key="unused" value="0" type="int"/>
+          </config>
+          <config name="1">
+            <property key="unused2" value="false" type="boolean"/>
+          </config>
+        </config>
+      </config>
+    </config>
+    <config name="Context">
+      <property key="product.serialNumber" value="0123456789ABC" type="string"/>
+    </config>
+  </config>
+  <config name="-123456789012345678">
+    <property key="Use" value="OTHER" type="string"/>
+    <property key="Name" value="Kitchen blinds" type="string"/>
+    <property key="Icon" value="icon-shutter" type="string"/>
+    <config name="Context">
+      <property key="product.serialNumber" value="ABCDEFGHIJKL" type="string"/>
+    </config>
+    <config name="FunctionalBlocks">
+      <config name="-2345678901234567891">
+        <config name="datapoints">
+          <config name="-3456789012345678912">
+            <property key="name" value="Rain alarm" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-1">
+            <property key="name" value="Stop" type="string"/>
+            <config name="groupAddresses">
+              <config name="1">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-2">
+            <property key="name" value="Up/Down" type="string"/>
+            <config name="groupAddresses">
+              <config name="4">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+              <config name="2">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+              <config name="3">
+                <property key="type" value="GROUP_SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="3">
+            <property key="name" value="Priority" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-4">
+            <property key="name" value="Priority status" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-5">
+            <property key="name" value="Top position" type="string"/>
+            <config name="groupAddresses">
+              <config name="5">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-6">
+            <property key="name" value="Scene" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-7">
+            <property key="name" value="Automatism deactivation status" type="string"/>
+            <config name="groupAddresses">
+              <config name="7">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-8">
+            <property key="name" value="Frost alarm" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-9">
+            <property key="name" value="Position automatism" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-10">
+            <property key="name" value="Bottom position" type="string"/>
+            <config name="groupAddresses">
+              <config name="10">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-11">
+            <property key="name" value="Wind alarm" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-12">
+            <property key="name" value="Slat angle automatism" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-13">
+            <property key="name" value="Step/Stop" type="string"/>
+            <property key="aDPTNumber" value="2" type="int"/>
+            <config name="groupAddresses">
+              <config name="13">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+              <config name="50">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+              <config name="100">
+                <property key="type" value="GROUP_SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-14">
+            <property key="name" value="Slat angle control status" type="string"/>
+            <config name="groupAddresses">
+              <config name="14">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="15">
+            <property key="name" value="Position control" type="string"/>
+            <config name="groupAddresses">
+              <config name="15">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="16">
+            <property key="name" value="Automatism deactivation" type="string"/>
+            <config name="groupAddresses">
+              <config name="16">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="17">
+            <property key="name" value="Slat angle control" type="string"/>
+            <config name="groupAddresses">
+              <config name="17">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="18">
+            <property key="name" value="Position control status" type="string"/>
+            <config name="groupAddresses">
+              <config name="18">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+        </config>
+      </config>
+    </config>
+  </config>
+  <config name="9876543210987654321">
+    <property key="Use" value="LIGHT" type="string"/>
+    <property key="Name" value="Küche Licht" type="string"/>
+    <property key="Icon" value="icon-light" type="string"/>
+    <config name="FunctionalBlocks">
+      <config name="-8765432109876543219">
+        <config name="datapoints">
+          <config name="-1">
+            <property key="name" value="Priority status" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="2">
+            <property key="name" value="Priority" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="3">
+            <property key="name" value="Energy alarm" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-4">
+            <property key="name" value="On/Off automatism" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="5">
+            <property key="name" value="Timer" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="6">
+            <property key="name" value="Automatism deactivation" type="string"/>
+            <config name="groupAddresses">
+              <config name="6">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-7">
+            <property key="name" value="On/Off" type="string"/>
+            <config name="groupAddresses">
+              <config name="20">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+              <config name="7">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+              <config name="30">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="8">
+            <property key="name" value="Automatism deactivation status" type="string"/>
+            <config name="groupAddresses">
+              <config name="8">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-9">
+            <property key="name" value="On/Off status" type="string"/>
+            <config name="groupAddresses">
+              <config name="9">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-10">
+            <property key="name" value="Scene" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+        </config>
+      </config>
+    </config>
+    <config name="Context">
+      <property key="product.serialNumber" value="0123456789XY" type="string"/>
+    </config>
+  </config>
+  <config name="1">
+    <!-- unnamed -->
+    <property key="Name" value="" type="string"/>
+    <property key="Icon" value="icon-indoor_temperature" type="string"/>
+    <config name="Context">
+      <property key="product.serialNumber" value="XYZ" type="string"/>
+    </config>
+    <config name="FunctionalBlocks">
+      <config name="1">
+        <config name="datapoints">
+          <config name="1">
+            <property key="catalogId" value="1" type="int"/>
+            <property key="supervisable" value="true" type="boolean"/>
+            <property key="name" value="Indoor temperature" type="string"/>
+            <property key="aDPTNumber" value="1" type="int"/>
+            <config name="groupAddresses">
+              <config name="1">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+        </config>
+      </config>
+    </config>
+  </config>
+</config>

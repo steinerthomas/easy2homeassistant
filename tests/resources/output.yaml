@@ -1,0 +1,17 @@
+light:
+  - name: "Living room light dimmable"
+    address: 5004
+    brightness_address: 5002
+    state_address: 50004
+    brightness_state_address: 50005
+  - name: "Küche Licht"
+    address: 7
+    state_address: 9
+cover:
+  - name: "Kitchen blinds"
+    move_long_address: 2
+    stop_address: 13
+    position_address: 15
+    angle_address: 17
+    position_state_address: 18
+    angle_state_address: 14

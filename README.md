@@ -1,4 +1,4 @@
-# easy2homeassistant
+# easy2homeassistant [![codecov](https://codecov.io/github/steinerthomas/easy2homeassistant/graph/badge.svg)](https://codecov.io/github/steinerthomas/easy2homeassistant)
 This python script parses a KNX easy configuration and converts it to a [HomeAssistant KNX Integration](https://www.home-assistant.io/integrations/knx) yaml configuration.
 
 Currently [covers](https://www.home-assistant.io/integrations/knx/#cover) and [lights](https://www.home-assistant.io/integrations/knx/#light) are supported.
