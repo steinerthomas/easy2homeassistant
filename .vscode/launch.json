@@ -8,7 +8,7 @@
             "name": "Python Debugger: easy2homeassistant.py",
             "type": "debugpy",
             "request": "launch",
-            "program": "easy2homeassistant.py",
+            "program": "easy2homeassistant/easy2homeassistant.py",
             "console": "integratedTerminal",
             "args":["-i", "easy-project.txa", "-o", "knx.yaml", "-l", "INFO"],
         }
