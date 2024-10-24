@@ -1,7 +1,7 @@
 """Module for XML validation using XSD schema."""
 
-from lxml import etree
 import os
+from lxml import etree
 
 
 class XMLValidator:
