@@ -30,6 +30,11 @@ class XMLValidator:
     def validate(self, xml_path: str) -> bool:
         """Validate the XML file using the XSD scheme."""
         xml_doc = etree.parse(xml_path)
-        result = self.get_scheme_for_xml(xml_path).validate(xml_doc)
+
+        validator = self.get_scheme_for_xml(xml_path)
+        if validator is None:
+            return False
+
+        result = validator.validate(xml_doc)
 
         return result
