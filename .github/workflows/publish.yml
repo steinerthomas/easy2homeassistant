@@ -24,7 +24,7 @@ jobs:
         pip install pyinstaller
     - name: Create binary
       run: |
-        pyinstaller --onefile easy2homeassistant/easy2homeassistant.py
+        pyinstaller --onefile easy2homeassistant/easy2homeassistant.py --add-data easy2homeassistant/resources;./resources
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
