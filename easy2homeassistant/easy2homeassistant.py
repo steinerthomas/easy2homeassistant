@@ -17,6 +17,8 @@ import zipfile
 import colorlog
 import yaml
 
+from xmlvalidator import XMLValidator
+
 # logging
 log_colors = {
     "DEBUG": "light_black",
@@ -320,6 +322,8 @@ def main():
 
     logger.setLevel(args.loglevel.upper())
 
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+
     with tempfile.TemporaryDirectory() as temp_dir:
         logger.info("Extracting files to temporary directory '%s'", temp_dir)
 
@@ -327,6 +331,13 @@ def main():
             zip_ref.extractall(temp_dir)
 
         channels_xml_file = os.path.join(temp_dir, "configuration", "Channels.xml")
+
+        schemes_path = os.path.join(package_directory, "resources", "schemes")
+        validator = XMLValidator(schemes_path)
+        if not validator.validate(channels_xml_file):
+            logger.error("Scheme validation of '%s' failed!", channels_xml_file)
+            return
+
         if not os.path.exists(channels_xml_file):
             logger.error("%s not found in the extracted files.", channels_xml_file)
             return
