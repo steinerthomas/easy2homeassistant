@@ -332,10 +332,8 @@ def main():
 
         channels_xml_file = os.path.join(temp_dir, "configuration", "Channels.xml")
 
-        channels_scheme_file = os.path.join(
-            package_directory, "resources", "schemes", "channels.xsd"
-        )
-        validator = XMLValidator(channels_scheme_file)
+        schemes_path = os.path.join(package_directory, "resources", "schemes")
+        validator = XMLValidator(schemes_path)
         if not validator.validate(channels_xml_file):
             logger.error("Scheme validation of '%s' failed!", channels_xml_file)
             return
