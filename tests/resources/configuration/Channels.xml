@@ -356,6 +356,24 @@
       <property key="product.serialNumber" value="0123456789XY" type="string"/>
     </config>
   </config>
+  <config name="123">
+    <property key="Name" value="" type="string"/>
+    <property key="Icon" value="icon-indoor_temperature" type="string"/>
+    <config name="FunctionalBlocks">
+      <config name="-123">
+        <config name="datapoints">
+          <config name="-1">
+            <property key="name" value="Indoor temperature" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+        </config>
+      </config>
+    </config>
+    <config name="Context">
+      <property key="product.serialNumber" value="0123456789XY" type="string"/>
+    </config>
+  </config>
   <config name="1">
     <property key="Name" value="" type="string"/>
     <property key="Icon" value="icon-indoor_temperature" type="string"/>
@@ -376,6 +394,21 @@
               </config>
             </config>
           </config>
+        </config>
+      </config>
+    </config>
+  </config>
+  <config name="2">
+    <property key="Name" value="" type="string"/>
+    <property key="Icon" value="no_function" type="string"/>
+    <config name="Context">
+      <property key="product.serialNumber" value="ABC123" type="string"/>
+    </config>
+    <config name="FunctionalBlocks">
+      <config name="2">
+        <config name="datapoints">
+        </config>
+        <config name="Parameters">
         </config>
       </config>
     </config>
