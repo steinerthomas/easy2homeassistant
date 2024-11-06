@@ -332,7 +332,7 @@ class XMLParser:
                 icon = prop.get("value")
                 if icon == "icon-shutter":
                     kind = EntityKind.COVER
-                elif icon == "icon-light" or icon == "icon-dimmer":
+                elif icon in ("icon-light", "icon-dimmer"):
                     kind = EntityKind.LIGHT
                 elif icon == "icon-indoor_temperature":
                     kind = EntityKind.TEMPERATURE_SENSOR
@@ -426,9 +426,9 @@ def parse_arguments():
     return arg_parser.parse_args()
 
 
-def get_configuration_xml_file(dir, file_name):
+def get_configuration_xml_file(project_dir, file_name):
     """Get the path to an xml file in the temporary directory."""
-    xml_file = os.path.join(dir, "configuration", file_name)
+    xml_file = os.path.join(project_dir, "configuration", file_name)
     if not os.path.exists(xml_file):
         logger.error("%s not found in the extracted files.", xml_file)
         return None
