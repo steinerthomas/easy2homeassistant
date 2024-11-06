@@ -1,0 +1,10 @@
+<config name="Products">
+  <config name="1234567890123456789">
+    <property key="product.name" value="Switch with temp sensor" type="string"/>
+    <property key="SerialNumber" value="ABC123" type="string"/>
+  </config>
+  <config name="-1234567890123456789">
+    <property key="product.name" value="Küche Lichtschalter" type="string"/>
+    <property key="SerialNumber" value="0123456789XY" type="string"/>
+  </config>
+</config>

@@ -161,6 +161,7 @@ class XMLParser:
         self.entities = Entities()
         self.entity = None  # currently parsed entity
         self.address_attribute_name = None  # currently parsed address
+        self.products = {}
 
     def add_entity(self):
         """Add the current entity to the entities list."""
@@ -274,7 +275,7 @@ class XMLParser:
                 self.parse_config(config)
             self.add_entity()
 
-    def parse_channel_xml(self, channels_xml):
+    def parse_channels_xml(self, channels_xml):
         """Parse the Channels.xml file and return the entities."""
         logger.info("Parsing xml file '%s'", channels_xml)
 
@@ -285,6 +286,36 @@ class XMLParser:
             self.parse_channel(channel)
 
         return self.entities
+
+    def parse_product(self, product):
+        """Parse a product element. Store the name for the serial number."""
+        name = ""
+        serial_number = ""
+        for prop in product.findall("property"):
+            if prop.get("key") == "SerialNumber":
+                serial_number = prop.get("value")
+                if serial_number == "":
+                    logger.warning(
+                        "Found product without SerialNumber: %s", product.get("name")
+                    )
+            elif prop.get("key") == "product.name":
+                name = prop.get("value")
+
+        if serial_number != "":
+            logger.info(
+                "Found product '%s' with serial number '%s'", name, serial_number
+            )
+            self.products[serial_number] = name
+
+    def parse_products_xml(self, products_xml):
+        """Parse the Products.xml file."""
+        logger.info("Parsing xml file '%s'", products_xml)
+
+        tree = ET.parse(products_xml)
+        root = tree.getroot()
+
+        for product in root.findall("config"):
+            self.parse_product(product)
 
 
 def parse_arguments():
@@ -314,6 +345,16 @@ def parse_arguments():
     return arg_parser.parse_args()
 
 
+def get_configuration_xml_file(dir, file_name):
+    """Get the path to an xml file in the temporary directory."""
+    xml_file = os.path.join(dir, "configuration", file_name)
+    if not os.path.exists(xml_file):
+        logger.error("%s not found in the extracted files.", xml_file)
+        return None
+
+    return xml_file
+
+
 def main():
     """Main function to extract and convert an easy project to a HomeAssistant configuration."""
     args = parse_arguments()
@@ -326,13 +367,17 @@ def main():
         with zipfile.ZipFile(args.input, "r") as zip_ref:
             zip_ref.extractall(temp_dir)
 
-        channels_xml_file = os.path.join(temp_dir, "configuration", "Channels.xml")
-        if not os.path.exists(channels_xml_file):
-            logger.error("%s not found in the extracted files.", channels_xml_file)
+        channels_xml_file = get_configuration_xml_file(temp_dir, "Channels.xml")
+        if channels_xml_file is None:
+            return
+
+        products_xml_file = get_configuration_xml_file(temp_dir, "Products.xml")
+        if products_xml_file is None:
             return
 
         parser = XMLParser()
-        entities = parser.parse_channel_xml(channels_xml_file)
+        parser.parse_products_xml(products_xml_file)
+        entities = parser.parse_channels_xml(channels_xml_file)
 
         yaml_configuration = args.output
         logger.info("Exporting entities to '%s'", yaml_configuration)

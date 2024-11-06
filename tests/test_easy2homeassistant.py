@@ -15,7 +15,7 @@ class TestXMLParser(unittest.TestCase):
         channels_xml_file = "tests/resources/configuration/Channels.xml"
         expected_output_file = "tests/resources/output.yaml"
 
-        entities = parser.parse_channel_xml(channels_xml_file)
+        entities = parser.parse_channels_xml(channels_xml_file)
 
         with open(expected_output_file, "r", encoding="utf-8") as f:
             expected_output = yaml.safe_load(f)
