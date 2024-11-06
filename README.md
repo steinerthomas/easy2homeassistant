@@ -5,7 +5,6 @@ Currently [covers](https://www.home-assistant.io/integrations/knx/#cover) and [l
 
 **Next steps / TODOs:**
 
-- [ ] Temperature Sensors: Parse Products.xml for name and serial number and map to group addresses in Channels.xml
 - [ ] Improve entity kind parsing (do not use icons?)
 - [ ] Handle Timer addresses for lights?
 - [ ] Switches ("inputs") in general, e.g. "Central off"
