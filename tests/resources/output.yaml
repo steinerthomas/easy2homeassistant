@@ -15,3 +15,8 @@ cover:
     angle_address: 17
     position_state_address: 18
     angle_state_address: 14
+sensor:
+  - name: "Switch with temp sensor"
+    state_address: 1
+    type: temperature
+    state_class: measurement

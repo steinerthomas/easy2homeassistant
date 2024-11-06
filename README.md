@@ -1,11 +1,10 @@
 # easy2homeassistant [![codecov](https://codecov.io/github/steinerthomas/easy2homeassistant/graph/badge.svg)](https://codecov.io/github/steinerthomas/easy2homeassistant)
 This python script parses a KNX easy configuration and converts it to a [HomeAssistant KNX Integration](https://www.home-assistant.io/integrations/knx) yaml configuration.
 
-Currently [covers](https://www.home-assistant.io/integrations/knx/#cover) and [lights](https://www.home-assistant.io/integrations/knx/#light) are supported.
+HomeAssistant [covers](https://www.home-assistant.io/integrations/knx/#cover), [lights](https://www.home-assistant.io/integrations/knx/#light) and (temperature) [sensors](https://www.home-assistant.io/integrations/knx/#sensor) are supported.
 
 **Next steps / TODOs:**
 
-- [ ] Temperature Sensors: Parse Products.xml for name and serial number and map to group addresses in Channels.xml
 - [ ] Improve entity kind parsing (do not use icons?)
 - [ ] Handle Timer addresses for lights?
 - [ ] Switches ("inputs") in general, e.g. "Central off"
