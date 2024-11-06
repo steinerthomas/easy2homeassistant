@@ -9,12 +9,14 @@ class TestXMLParser(unittest.TestCase):
     """Tests for XMLParser."""
 
     def test_xml_parser_channels_xml(self):
-        """Test the XMLParser with a Channels.xml file."""
+        """Test the XMLParser with a Channels.xml and Products.xml file."""
 
         parser = XMLParser()
         channels_xml_file = "tests/resources/configuration/Channels.xml"
+        products_xml_file = "tests/resources/configuration/Products.xml"
         expected_output_file = "tests/resources/output.yaml"
 
+        parser.parse_products_xml(products_xml_file)
         entities = parser.parse_channels_xml(channels_xml_file)
 
         with open(expected_output_file, "r", encoding="utf-8") as f:
