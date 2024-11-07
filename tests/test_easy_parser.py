@@ -1,8 +1,9 @@
-"""Tests for easy2homeassistant.py."""
+"""Tests for easy_parser.py."""
 
 import unittest
 import yaml
-from easy2homeassistant import XMLParser
+
+from easy_parser import XMLParser
 
 
 class TestXMLParser(unittest.TestCase):
