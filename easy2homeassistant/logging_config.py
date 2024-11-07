@@ -16,7 +16,7 @@ LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 LOG_FILE_PATH = "easy2homeassistant.log"
 
 
-def configure_logging(logging_level="INFO"):
+def configure_logging():
     """Return a logger with the specified name."""
     console_handler = colorlog.StreamHandler(sys.stdout)
     console_formatter = colorlog.ColoredFormatter(
