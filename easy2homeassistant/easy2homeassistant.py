@@ -7,40 +7,16 @@ from enum import Enum
 from typing import List, Optional
 
 import argparse
-import logging
 import os
-import sys
 import tempfile
 import xml.etree.ElementTree as ET
 import zipfile
 
-import colorlog
 import yaml
 
-# logging
-log_colors = {
-    "DEBUG": "light_black",
-    "INFO": "black",
-    "WARNING": "yellow",
-    "ERROR": "red",
-    "CRITICAL": "bold_red",
-}
+from logging_config import get_logger
 
-LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-console_handler = colorlog.StreamHandler(sys.stdout)
-console_formatter = colorlog.ColoredFormatter(
-    f"%(log_color)s{LOGGER_FORMAT}", log_colors=log_colors
-)
-console_handler.setFormatter(console_formatter)
-
-LOG_FILE_PATH = "easy2homeassistant.log"
-file_handler = logging.FileHandler(LOG_FILE_PATH)
-file_formatter = logging.Formatter(LOGGER_FORMAT)
-file_handler.setFormatter(file_formatter)
-
-logger = logging.getLogger(__name__)
-logger.addHandler(console_handler)
-logger.addHandler(file_handler)
+logger = get_logger(__name__)
 
 
 class StringValue(str):
