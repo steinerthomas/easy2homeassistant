@@ -1,7 +1,7 @@
-"""Tests for xmlvalidator.py."""
+"""Tests for xml_validator.py."""
 
 import unittest
-from easy2homeassistant import XMLValidator
+from xml_validator import XMLValidator
 
 
 class TestXMLValidator(unittest.TestCase):
