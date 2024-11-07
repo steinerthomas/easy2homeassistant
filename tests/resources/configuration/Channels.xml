@@ -356,12 +356,29 @@
       <property key="product.serialNumber" value="0123456789XY" type="string"/>
     </config>
   </config>
+  <config name="123">
+    <property key="Name" value="" type="string"/>
+    <property key="Icon" value="icon-indoor_temperature" type="string"/>
+    <config name="FunctionalBlocks">
+      <config name="-123">
+        <config name="datapoints">
+          <config name="-1">
+            <property key="name" value="Indoor temperature" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+        </config>
+      </config>
+    </config>
+    <config name="Context">
+      <property key="product.serialNumber" value="0123456789XY" type="string"/>
+    </config>
+  </config>
   <config name="1">
-    <!-- unnamed -->
     <property key="Name" value="" type="string"/>
     <property key="Icon" value="icon-indoor_temperature" type="string"/>
     <config name="Context">
-      <property key="product.serialNumber" value="XYZ" type="string"/>
+      <property key="product.serialNumber" value="ABC123" type="string"/>
     </config>
     <config name="FunctionalBlocks">
       <config name="1">
@@ -375,6 +392,102 @@
               <config name="1">
                 <property key="type" value="LINK" type="string"/>
               </config>
+            </config>
+          </config>
+        </config>
+      </config>
+    </config>
+  </config>
+  <config name="2">
+    <property key="Name" value="" type="string"/>
+    <property key="Icon" value="no_function" type="string"/>
+    <config name="Context">
+      <property key="product.serialNumber" value="ABC123" type="string"/>
+    </config>
+    <config name="FunctionalBlocks">
+      <config name="2">
+        <config name="datapoints">
+        </config>
+        <config name="Parameters">
+        </config>
+      </config>
+    </config>
+  </config>
+  <config name="2">
+    <property key="Name" value="" type="string"/>
+    <property key="Icon" value="icon-light" type="string"/>
+    <config name="Context">
+      <property key="product.serialNumber" value="12345" type="string"/>
+    </config>
+    <config name="FunctionalBlocks">
+      <config name="-8765432109876543219">
+        <config name="datapoints">
+          <config name="-1">
+            <property key="name" value="Priority status" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="2">
+            <property key="name" value="Priority" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="3">
+            <property key="name" value="Energy alarm" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="-4">
+            <property key="name" value="On/Off automatism" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="5">
+            <property key="name" value="Timer" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+          <config name="6">
+            <property key="name" value="Automatism deactivation" type="string"/>
+            <config name="groupAddresses">
+              <config name="6">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-7">
+            <property key="name" value="On/Off" type="string"/>
+            <config name="groupAddresses">
+              <config name="20">
+                <property key="type" value="SUPERVISION" type="string"/>
+              </config>
+              <config name="7">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+              <config name="30">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="8">
+            <property key="name" value="Automatism deactivation status" type="string"/>
+            <config name="groupAddresses">
+              <config name="8">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-9">
+            <property key="name" value="On/Off status" type="string"/>
+            <config name="groupAddresses">
+              <config name="9">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-10">
+            <property key="name" value="Scene" type="string"/>
+            <config name="groupAddresses">
             </config>
           </config>
         </config>

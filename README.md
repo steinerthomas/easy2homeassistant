@@ -1,11 +1,10 @@
 # easy2homeassistant [![codecov](https://codecov.io/github/steinerthomas/easy2homeassistant/graph/badge.svg)](https://codecov.io/github/steinerthomas/easy2homeassistant)
 This python script parses a KNX easy configuration and converts it to a [HomeAssistant KNX Integration](https://www.home-assistant.io/integrations/knx) yaml configuration.
 
-Currently [covers](https://www.home-assistant.io/integrations/knx/#cover) and [lights](https://www.home-assistant.io/integrations/knx/#light) are supported.
+HomeAssistant [covers](https://www.home-assistant.io/integrations/knx/#cover), [lights](https://www.home-assistant.io/integrations/knx/#light) and (temperature) [sensors](https://www.home-assistant.io/integrations/knx/#sensor) are supported.
 
 **Next steps / TODOs:**
 
-- [ ] Temperature Sensors: Parse Products.xml for name and serial number and map to group addresses in Channels.xml
 - [ ] Improve entity kind parsing (do not use icons?)
 - [ ] Handle Timer addresses for lights?
 - [ ] Switches ("inputs") in general, e.g. "Central off"
@@ -81,28 +80,39 @@ A list of currently supported variables parsed from the easy installation export
 | On/Off status                                 | state_address            |
 | Dim value status                              | brightness_state_address |
 
+#### Temperature Sensors
+| easy installation export name (all languages) | HomeAssistant variable   |
+| --------------------------------------------- | ------------------------ |
+| Indoor temperature                            | state_address            |
+
 ### Configure HomeAssistant
 Include generated HomeAssistant configuration to your HomeAssistant installation. Now all entities should show up in the Overview Dashboard. Create your own Dashboards to group your entities.
 
 #### Example generated knx.yaml
 ```yaml
 cover:
-  - name: "Kitchen blinds"
-    move_long_address: 5122 # 2/4/2 - Up/Down
-    stop_address: 5124 # 2/4/5 - Step/Stop
-    position_address: 5124 # 2/4/4 - Position control
-    angle_address: 5121 # 2/4/1 - Slat angle control
-    position_state_address: 50179 # 24/4/3 - Position control status
-    angle_state_address: 50177 # 24/4/1 - Slat angle control status
-    #travelling_time_down: 120 # not parsed
-    #travelling_time_up: 120 # not parsed
+- name: "Kitchen blinds"
+  move_long_address: 5122 # 2/4/2 - Up/Down
+  stop_address: 5124 # 2/4/5 - Step/Stop
+  position_address: 5124 # 2/4/4 - Position control
+  angle_address: 5121 # 2/4/1 - Slat angle control
+  position_state_address: 50179 # 24/4/3 - Position control status
+  angle_state_address: 50177 # 24/4/1 - Slat angle control status
+  #travelling_time_down: 120 # not parsed
+  #travelling_time_up: 120 # not parsed
 # ...
 light:
-  - name: "Living room light dimmable"
-    address: 5220 # 2/4/100 - On/Off
-    brightness_address: 5222 # 2/4/102 - Dim value (optional)
-    state_address: 50262 # 24/4/86 - On/Off status
-    brightness_state_address: 50261 # 24/4/85 - Dim value status (optional)
+- name: "Living room light dimmable"
+  address: 5220 # 2/4/100 - On/Off
+  brightness_address: 5222 # 2/4/102 - Dim value (optional)
+  state_address: 50262 # 24/4/86 - On/Off status
+  brightness_state_address: 50261 # 24/4/85 - Dim value status (optional)
+# ...
+sensor:
+- name: "Bathroom"
+  state_address: 50376 # 24/4/200 - Indoor temperature
+  type: "temperature"
+  state_class: "measurement"
 # ...
 ```
 
