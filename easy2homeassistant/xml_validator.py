@@ -1,7 +1,10 @@
 """Module for XML validation using XSD schema."""
 
+import logging
 import os
 from lxml import etree
+
+logger = logging.getLogger(__name__)
 
 
 class XMLValidator:
@@ -36,5 +39,7 @@ class XMLValidator:
             return False
 
         result = validator.validate(xml_doc)
+        if not result:
+            logger.error(validator.error_log.filter_from_errors()[0])
 
         return result
