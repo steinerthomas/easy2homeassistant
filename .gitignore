@@ -161,6 +161,11 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# nuitka
+easy2homeassistant.build/
+easy2homeassistant.dist/
+easy2homeassistant.exe
+
 # easy2homeassistant test data
 easy-project.txa
 knx.yaml
