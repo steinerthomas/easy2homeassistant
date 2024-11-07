@@ -11,7 +11,7 @@ import zipfile
 from logging_config import configure_logging, set_logging_level
 from yaml_serializer import serialize_to_file
 from easy_parser import XMLParser
-from xmlvalidator import XMLValidator
+from xml_validator import XMLValidator
 
 configure_logging()
 logger = logging.getLogger(__name__)
