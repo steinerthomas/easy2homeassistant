@@ -11,6 +11,7 @@ import zipfile
 from logging_config import configure_logging, set_logging_level
 from yaml_serializer import serialize_to_file
 from easy_parser import XMLParser
+from xml_validator import XMLValidator
 
 configure_logging()
 logger = logging.getLogger(__name__)
@@ -59,6 +60,8 @@ def main():
 
     set_logging_level(args.loglevel.upper())
 
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+
     with tempfile.TemporaryDirectory() as temp_dir:
         logger.info("Extracting files to temporary directory '%s'", temp_dir)
 
@@ -71,6 +74,16 @@ def main():
 
         products_xml_file = get_configuration_xml_file(temp_dir, "Products.xml")
         if products_xml_file is None:
+            return
+
+        schemes_path = os.path.join(package_directory, "resources", "schemes")
+        validator = XMLValidator(schemes_path)
+        if not validator.validate(channels_xml_file):
+            logger.error("Scheme validation of '%s' failed!", channels_xml_file)
+            return
+
+        if not validator.validate(products_xml_file):
+            logger.error("Scheme validation of '%s' failed!", products_xml_file)
             return
 
         parser = XMLParser()

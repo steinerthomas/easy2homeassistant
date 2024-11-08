@@ -274,7 +274,7 @@
       </config>
     </config>
   </config>
-  <config name="9876543210987654321">
+  <config name="1876543210987654329">
     <property key="Use" value="LIGHT" type="string"/>
     <property key="Name" value="Küche Licht" type="string"/>
     <property key="Icon" value="icon-light" type="string"/>
