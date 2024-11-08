@@ -21,28 +21,19 @@ jobs:
     - name: Install requirements
       run: |
         pip install -r requirements.txt
-        pip install pyinstaller
-        pip install nuitka
-    - name: Create binary (nuitka)
-      run: |
-        python -m nuitka --mingw64 --standalone --onefile easy2homeassistant/easy2homeassistant.py --include-data-dir=easy2homeassistant/resources=resources
-    - name: Upload binaries to release (nuitka)
+    - name: Create binary
+      uses: Nuitka/Nuitka-Action@main
+      with:
+        nuitka-version: main
+        script-name: easy2homeassistant/easy2homeassistant.py
+        onefile: true
+        include-data-dir: |
+          easy2homeassistant/resources=resources
+    - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: easy2homeassistant.exe
+        file: build/easy2homeassistant.exe
         asset_name: easy2homeassistant.exe
         tag: ${{ github.ref }}
         overwrite: true
-    #- name: Create binary (pyinstaller)
-    #  run: |
-    #    pyinstaller --onefile easy2homeassistant/easy2homeassistant.py
-    #- name: Upload binaries to release (pyinstaller)
-    #  uses: svenstaro/upload-release-action@v2
-    #  with:
-    #    repo_token: ${{ secrets.GITHUB_TOKEN }}
-    #    file: dist/easy2homeassistant.exe
-    #    asset_name: easy2homeassistant.exe
-    #    tag: ${{ github.ref }}
-    #    overwrite: true
-
