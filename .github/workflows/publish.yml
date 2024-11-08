@@ -27,6 +27,8 @@ jobs:
         nuitka-version: main
         script-name: easy2homeassistant/easy2homeassistant.py
         onefile: true
+        include-data-dir: |
+          easy2homeassistant/resources=resources
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:

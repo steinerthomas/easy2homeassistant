@@ -1,0 +1,27 @@
+<config name="Channels">
+  <property key="Last-Modified" value="1729265022123" type="long"/>
+  <config name="1234567890123456789">
+    <property key="Use" value="OTHER" type="string"/>
+    <property key="Name" value="Living room light dimmable" type="string"/>
+    <property key="Icon" value="icon-dimmer" type="string"/>
+    <config name="FunctionalBlocks">
+      <config name="2345678901234567891">
+        <config name="datapoints">
+          <config name="3456789012345678912">
+            <property key="name" value="Automatism deactivation status" type="string"/>
+            <config name="groupAddresses">
+              <config name="50000">
+                <config>
+                   <property key="type" value="LINK" type="string"/>
+                </config>
+              </config>
+            </config>
+          </config>
+        </config>
+      </config>
+    </config>
+    <config name="Context">
+      <property key="product.serialNumber" value="0123456789ABC" type="string"/>
+    </config>
+  </config>
+</config>
