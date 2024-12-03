@@ -16,7 +16,7 @@ class TestXMLValidator(unittest.TestCase):
 
         self.assertTrue(result)
 
-    def test_xml_validator(self):
+    def test_xml_validator_no_property(self):
         """Test the XMLValidator with a valid XML file which has no Last-Modified property."""
         validator = XMLValidator("easy2homeassistant/resources/schemes")
         xml_file = "tests/resources/configuration/no-property/Channels.xml"
