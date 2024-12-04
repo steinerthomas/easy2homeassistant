@@ -1,0 +1,20 @@
+<config name="Channels">
+  <config name="123">
+    <property key="Name" value="" type="string"/>
+    <property key="Icon" value="icon-indoor_temperature" type="string"/>
+    <config name="FunctionalBlocks">
+      <config name="-123">
+        <config name="datapoints">
+          <config name="-1">
+            <property key="name" value="Indoor temperature" type="string"/>
+            <config name="groupAddresses">
+            </config>
+          </config>
+        </config>
+      </config>
+    </config>
+    <config name="Context">
+      <property key="product.serialNumber" value="0123456789XY" type="string"/>
+    </config>
+  </config>
+</config>
