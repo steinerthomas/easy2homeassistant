@@ -11,4 +11,9 @@
     <property key="product.name" value="actor" type="string"/>
     <property key="SerialNumber" value="12345" type="string"/>
   </config>
+  </config>
+    <config name="2">
+    <property key="product.name" value="" type="string"/>
+    <property key="SerialNumber" value="heatRegul" type="string"/>
+  </config>
 </config>
