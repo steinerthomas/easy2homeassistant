@@ -1,7 +1,7 @@
 # easy2homeassistant [![codecov](https://codecov.io/github/steinerthomas/easy2homeassistant/graph/badge.svg)](https://codecov.io/github/steinerthomas/easy2homeassistant)
 This python script parses a KNX easy configuration and converts it to a [HomeAssistant KNX Integration](https://www.home-assistant.io/integrations/knx) yaml configuration.
 
-HomeAssistant [covers](https://www.home-assistant.io/integrations/knx/#cover), [lights](https://www.home-assistant.io/integrations/knx/#light) and (temperature) [sensors](https://www.home-assistant.io/integrations/knx/#sensor) are supported.
+HomeAssistant [covers](https://www.home-assistant.io/integrations/knx/#cover), [lights](https://www.home-assistant.io/integrations/knx/#light), (temperature) [sensors](https://www.home-assistant.io/integrations/knx/#sensor) and [climate](https://www.home-assistant.io/integrations/knx/#climate) are supported.
 
 **Next steps / TODOs:**
 
@@ -81,9 +81,41 @@ A list of currently supported variables parsed from the easy installation export
 | Dim value status                              | brightness_state_address |
 
 #### Temperature Sensors
-| easy installation export name (all languages) | HomeAssistant variable   |
-| --------------------------------------------- | ------------------------ |
-| Indoor temperature                            | state_address            |
+| easy installation export name (all languages) | HomeAssistant variable |
+| --------------------------------------------- | ---------------------- |
+| Indoor temperature                            | state_address          |
+
+#### Climate: Temperature controller
+| easy installation export name (all languages) | HomeAssistant variable           |
+| --------------------------------------------- | -------------------------------- |
+| Window                                        | -                                |
+| Room temperature                              | target_temperature_state_address |
+| Mode status                                   | operation_mode_state_address     |
+| Priority                                      | -                                |
+| Mode for automatism                           | -                                |
+| Setpoint shift                                | setpoint_shift_address           |
+| Mode                                          | operation_mode_address           |
+| Automatism deactivation                       | -                                |
+| Position valve                                | -                                |
+| Outdoor temperature                           | -                                |
+| Automatism deactivation status                | -                                |
+| Indoor temperature                            | -                                |
+| Setpoint shift status                         | setpoint_shift_state_address     |
+| Scene                                         | -                                |
+| Priority status                               | -                                |
+| Heat/Cool                                     | heat_cool_address                |
+| On/Off                                        | on_off_address                   |
+| Combined setpoints heat status                | -                                |
+| Heat/Cool status                              | heat_cool_state_address          |
+| Combined setpoints cool status                | -                                |
+| Energy alarm status                           | -                                |
+| Combined setpoints cool                       | -                                |
+| Combined setpoints heat                       | -                                |
+| Floor temperature                             | -                                |
+| Indoor temperature                            | temperature_address              |
+
+The `Indoor temperature` is used from the [Temperature Sensors](#Temperature-Sensors)
+
 
 ### Configure HomeAssistant
 Include generated HomeAssistant configuration to your HomeAssistant installation. Now all entities should show up in the Overview Dashboard. Create your own Dashboards to group your entities.
@@ -113,6 +145,22 @@ sensor:
   state_address: 50376 # 24/4/200 - Indoor temperature
   type: "temperature"
   state_class: "measurement"
+- name: "Office temperature"
+  state_address: 50789 # Indoor temperature
+  type: "temperature"
+  state_class: "measurement"
+# ...
+climate:
+- name: "Office temperature controller"
+  temperature_address: 50789 # Indoor temperature (from sensor)
+  target_temperature_state_address: 50548 # Room temperature
+  setpoint_shift_address: 5418 # Setpoint shift
+  setpoint_shift_state_address: 50544 # Setpoint shift status
+  operation_mode_address: 5417 # Mode
+  operation_mode_state_address: 50547 # Mode Status
+  heat_cool_address: 5419 # Heat/Cool
+  heat_cool_state_address: 50543 # Heat/Cool status
+  on_off_address: 50578 # On/Off
 # ...
 ```
 
