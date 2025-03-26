@@ -193,13 +193,10 @@ class XMLParser:
 
     def add_entity(self):
         """Add the current entity to the entities list."""
-        added = False
-        if self.entity is not None and self.entity.is_valid():
+        if self.entity is not None:
             self.entities.add_entity(self.entity)
-            added = True
 
         self.entity = None
-        return added
 
     def parse_group_addresses(self, group_addresses):
         """Parse group addresses and set the lowest address to the currently parsed entity."""
@@ -360,8 +357,7 @@ class XMLParser:
 
         for channel in root.findall("config"):
             self.parse_channel(channel)
-            if not self.add_entity():
-                logger.debug("Skip unnamed channel: %s", channel.get("name"))
+            self.add_entity()
 
         return self.entities
 
@@ -394,3 +390,18 @@ class XMLParser:
 
         for product in root.findall("config"):
             self.parse_product(product)
+
+    def remove_invalid_entities(self):
+        """Remove incomplete entities from the entities list."""
+        self.entities.light = [
+            light for light in self.entities.light if light.is_valid()
+        ]
+        self.entities.cover = [
+            cover for cover in self.entities.cover if cover.is_valid()
+        ]
+        self.entities.sensor = [
+            sensor for sensor in self.entities.sensor if sensor.is_valid()
+        ]
+        self.entities.climate = [
+            climate for climate in self.entities.climate if climate.is_valid()
+        ]

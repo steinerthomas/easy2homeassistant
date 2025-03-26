@@ -89,6 +89,7 @@ def main():
         parser = XMLParser()
         parser.parse_products_xml(products_xml_file)
         entities = parser.parse_channels_xml(channels_xml_file)
+        parser.remove_invalid_entities()
 
         yaml_configuration = args.output
         logger.info("Exporting entities to '%s'", yaml_configuration)
