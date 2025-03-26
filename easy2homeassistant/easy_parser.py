@@ -18,6 +18,7 @@ class EntityKind(Enum):
     LIGHT = 1
     COVER = 2
     TEMPERATURE_SENSOR = 3
+    CLIMATE = 4
 
     def __str__(self):
         return f"{self.name} ({self.value})"
@@ -36,6 +37,10 @@ class Light:
     def is_valid(self):
         """Check if the entity is valid."""
         return self.name != "" and self.address != 0 and self.state_address != 0
+
+    def get_kind(self):
+        """Return the entity kind."""
+        return EntityKind.LIGHT
 
 
 @dataclass
@@ -62,6 +67,10 @@ class Cover:
             and self.angle_state_address != 0
         )
 
+    def get_kind(self):
+        """Return the entity kind."""
+        return EntityKind.COVER
+
 
 @dataclass
 class TemperatureSensor:
@@ -76,6 +85,38 @@ class TemperatureSensor:
         """Check if the entity is valid."""
         return self.name != "" and self.state_address != 0
 
+    def get_kind(self):
+        """Return the entity kind."""
+        return EntityKind.TEMPERATURE_SENSOR
+
+
+@dataclass
+class Climate:
+    """A data class to represent a climate entity."""
+
+    name: str
+    temperature_address: int = 0
+    target_temperature_state_address: int = 0
+    setpoint_shift_address: Optional[int] = None
+    setpoint_shift_state_address: Optional[int] = None
+    operation_mode_address: Optional[int] = None
+    operation_mode_state_address: Optional[int] = None
+    heat_cool_address: Optional[int] = None
+    heat_cool_state_address: Optional[int] = None
+    on_off_address: Optional[int] = None
+
+    def is_valid(self):
+        """Check if the entity is valid."""
+        return (
+            self.name != ""
+            # TODO and self.temperature_address != 0
+            and self.target_temperature_state_address != 0
+        )
+
+    def get_kind(self):
+        """Return the entity kind."""
+        return EntityKind.CLIMATE
+
 
 @dataclass
 class Entities:
@@ -84,6 +125,7 @@ class Entities:
     light: List = field(default_factory=list)
     cover: List = field(default_factory=list)
     sensor: List = field(default_factory=list)
+    climate: List = field(default_factory=list)
 
     def add_entity(self, entity):
         """Add an entity to the corresponding list."""
@@ -94,6 +136,8 @@ class Entities:
             self.cover.append(entity)
         elif isinstance(entity, TemperatureSensor):
             self.sensor.append(entity)
+        elif isinstance(entity, Climate):
+            self.climate.append(entity)
         else:
             logger.critical("Invalid entity '%s'", entity)
 
@@ -102,21 +146,43 @@ class Entities:
 class XMLParser:
     """A class to parse an easy project xml file."""
 
-    ADDRESS_MAP = {
-        # light
+    LIGHT_ADDRESS_MAP = {
         "On/Off": "address",
         "Dim value": "brightness_address",
         "On/Off status": "state_address",
         "Dim value status": "brightness_state_address",
-        # cover
+    }
+
+    COVER_ADDRESS_MAP = {
         "Up/Down": "move_long_address",
         "Step/Stop": "stop_address",
         "Position control": "position_address",
         "Slat angle control": "angle_address",
         "Position control status": "position_state_address",
         "Slat angle control status": "angle_state_address",
-        # sensor
+    }
+
+    SENSOR_ADDRESS_MAP = {
         "Indoor temperature": "state_address",
+    }
+
+    CLIMATE_ADDRESS_MAP = {
+        "Indoor temperature": "temperature_address",
+        "Room temperature": "target_temperature_state_address",
+        "Setpoint shift": "setpoint_shift_address",
+        "Setpoint shift status": "setpoint_shift_state_address",
+        "Mode": "operation_mode_address",
+        "Mode status": "operation_mode_state_address",
+        "Heat/Cool": "heat_cool_address",
+        "Heat/Cool status": "heat_cool_state_address",
+        "On/Off": "on_off_address",
+    }
+
+    ADDRESS_MAP = {
+        EntityKind.LIGHT: LIGHT_ADDRESS_MAP,
+        EntityKind.COVER: COVER_ADDRESS_MAP,
+        EntityKind.TEMPERATURE_SENSOR: SENSOR_ADDRESS_MAP,
+        EntityKind.CLIMATE: CLIMATE_ADDRESS_MAP,
     }
 
     def __init__(self):
@@ -163,13 +229,14 @@ class XMLParser:
 
     def parse_datapoints(self, datapoints):
         """Parse datapoints and map them to the corresponding entity attribute."""
+        address_map = self.ADDRESS_MAP[self.entity.get_kind()]
         for config in datapoints.findall("config"):
             for prop in config.findall("property"):
                 if prop.get("key") == "name":
                     datapoint_name = prop.get("value")
-                    if datapoint_name in self.ADDRESS_MAP:
+                    if datapoint_name in address_map:
                         # set attribute name and search for group addresses
-                        self.address_attribute_name = self.ADDRESS_MAP[datapoint_name]
+                        self.address_attribute_name = address_map[datapoint_name]
                         if hasattr(self.entity, self.address_attribute_name):
                             self.parse_config(config)
                         else:
@@ -262,6 +329,8 @@ class XMLParser:
                     kind = EntityKind.LIGHT
                 elif icon == "icon-indoor_temperature":
                     kind = EntityKind.TEMPERATURE_SENSOR
+                elif icon == "icon-heat_regul":
+                    kind = EntityKind.CLIMATE
 
         if kind != EntityKind.UNDEFINED:
             if kind in (EntityKind.COVER, EntityKind.LIGHT) and name == "":
@@ -275,6 +344,8 @@ class XMLParser:
                 self.entity = Light(name)
             elif kind is EntityKind.TEMPERATURE_SENSOR:
                 self.entity = TemperatureSensor(name)
+            elif kind is EntityKind.CLIMATE:
+                self.entity = Climate(name)
 
             logger.info("Found entity '%s' of kind %s", name, kind)
             for config in channel.findall("config"):
