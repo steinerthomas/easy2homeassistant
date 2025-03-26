@@ -7,12 +7,11 @@
     <property key="product.name" value="Küche Lichtschalter" type="string"/>
     <property key="SerialNumber" value="0123456789XY" type="string"/>
   </config>
-    <config name="1">
+  <config name="1">
     <property key="product.name" value="actor" type="string"/>
     <property key="SerialNumber" value="12345" type="string"/>
   </config>
-  </config>
-    <config name="2">
+  <config name="2">
     <property key="product.name" value="" type="string"/>
     <property key="SerialNumber" value="heatRegul" type="string"/>
   </config>
