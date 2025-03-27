@@ -90,6 +90,8 @@ class TemperatureSensor:
 class Climate:
     """A data class to represent a climate entity."""
 
+    # pylint: disable=too-many-instance-attributes
+
     name: str
     temperature_address: int = 0
     target_temperature_state_address: int = 0
@@ -213,8 +215,8 @@ def create_entity(project: Project, channel: Channel) -> Optional[object]:
         address = find_sensor_address(project, channel.serial_number)
         setattr(climate, "temperature_address", address)
         return climate
-    else:
-        return None
+
+    return None
 
 
 def convert_project_to_entities(project: Project) -> Entities:
