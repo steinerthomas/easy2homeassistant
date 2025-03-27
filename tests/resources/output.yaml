@@ -20,3 +20,18 @@ sensor:
     state_address: 1
     type: temperature
     state_class: measurement
+  - name: "Office temperature"
+    state_address: 50789
+    type: temperature
+    state_class: measurement
+climate:
+- name: "Office temperature controller"
+  temperature_address: 50789
+  target_temperature_state_address: 50548
+  setpoint_shift_address: 5418
+  setpoint_shift_state_address: 50544
+  operation_mode_address: 5417
+  operation_mode_state_address: 50547
+  heat_cool_address: 5419
+  heat_cool_state_address: 50543
+  on_off_address: 50578
