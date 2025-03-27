@@ -11,6 +11,7 @@ import zipfile
 from logging_config import configure_logging, set_logging_level
 from yaml_serializer import serialize_to_file
 from easy_parser import XMLParser
+from homeassistant_entities import convert_project_to_entities
 from xml_validator import XMLValidator
 
 configure_logging()
@@ -88,8 +89,10 @@ def main():
 
         parser = XMLParser()
         parser.parse_products_xml(products_xml_file)
-        entities = parser.parse_channels_xml(channels_xml_file)
-        parser.remove_invalid_entities()
+        parser.parse_channels_xml(channels_xml_file)
+        project = parser.get_project()
+
+        entities = convert_project_to_entities(project)
 
         yaml_configuration = args.output
         logger.info("Exporting entities to '%s'", yaml_configuration)
