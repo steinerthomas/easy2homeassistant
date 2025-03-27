@@ -12,6 +12,8 @@ class TestXMLParser(unittest.TestCase):
 
     def setUp(self):
         """Set up the test case."""
+
+        # pylint: disable=invalid-name
         self.maxDiff = None  # Allow full diff output for assertions
 
     def test_xml_parser_channels_xml(self):
