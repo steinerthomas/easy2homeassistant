@@ -23,7 +23,7 @@ class XMLParser:
             logger.debug("Parse group address '%s'", address)
             try:
                 numeric_address = int(address)
-                self.project.channels[-1].datapoints[-1].groupAddresses.append(
+                self.project.channels[-1].datapoints[-1].group_addresses.append(
                     numeric_address
                 )
             except ValueError:
@@ -45,7 +45,7 @@ class XMLParser:
         """Parse a context element and set the serial number on the currently parsed channel."""
         for prop in context.findall("property"):
             if prop.get("key") == "product.serialNumber":
-                self.project.channels[-1].serialNumber = prop.get("value")
+                self.project.channels[-1].serial_number = prop.get("value")
                 break
 
     def parse_config(self, config):
@@ -87,9 +87,9 @@ class XMLParser:
 
         for prop in channel.findall("property"):
             if prop.get("key") == "Name":
-                self.project.channels[-1].Name = prop.get("value")
+                self.project.channels[-1].name = prop.get("value")
             elif prop.get("key") == "Icon":
-                self.project.channels[-1].Icon = prop.get("value")
+                self.project.channels[-1].icon = prop.get("value")
 
         for config in channel.findall("config"):
             self.parse_config(config)

@@ -9,26 +9,26 @@ class Datapoint:
     """A data class to represent a datapoint."""
 
     name: str = ""
-    groupAddresses: List[int] = field(default_factory=list)
+    group_addresses: List[int] = field(default_factory=list)
 
     def is_valid(self):
         """Check if the datapoint is valid."""
-        return self.name != "" and len(self.groupAddresses) > 0
+        return self.name != "" and len(self.group_addresses) > 0
 
     def get_lowest_address(self):
         """Return the lowest address."""
-        if len(self.groupAddresses) == 0:
-            return None
-        return min(self.groupAddresses)
+        if len(self.group_addresses) == 0:
+            return 0
+        return min(self.group_addresses)
 
 
 @dataclass
 class Channel:
     """A data class to represent a channel."""
 
-    Name: str = ""
-    Icon: str = ""
-    serialNumber: str = ""
+    name: str = ""
+    icon: str = ""
+    serial_number: str = ""
     datapoints: List[Datapoint] = field(default_factory=list)
 
     def is_valid(self):

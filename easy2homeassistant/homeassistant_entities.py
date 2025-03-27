@@ -177,6 +177,19 @@ class Entities:
         #    logger.critical("Invalid entity '%s'", entity)
 
 
+def find_sensor_address(project: Project, serial_number: str) -> int:
+    """Find the address of a sensor by its serial number."""
+    for channel in project.channels:
+        if (
+            channel.icon == "icon-indoor_temperature"
+            and channel.serial_number == serial_number
+        ):
+            for datapoint in channel.datapoints:
+                if datapoint.name == "Indoor temperature":
+                    return datapoint.get_lowest_address()
+    return 0
+
+
 def convert_project_to_entities(project: Project) -> Entities:
     """Convert a project to a list of entities."""
     entities = Entities()
@@ -185,34 +198,25 @@ def convert_project_to_entities(project: Project) -> Entities:
         if not channel.is_valid():
             continue
 
-        name = channel.Name
+        name = channel.name
 
-        if channel.Icon == "icon-shutter":
+        if channel.icon == "icon-shutter":
             entity = Cover(name)
-        elif channel.Icon in ("icon-light", "icon-dimmer"):
+        elif channel.icon in ("icon-light", "icon-dimmer"):
             entity = Light(name)
-        elif channel.Icon == "icon-indoor_temperature":
+        elif channel.icon == "icon-indoor_temperature":
             if name == "":
                 # in case of an unnamed sensor fallback to the product name
                 for product in project.products:
-                    if product.serialNumber == channel.serialNumber:
+                    if product.serialNumber == channel.serial_number:
                         name = product.name
                         break
             entity = TemperatureSensor(name)
-        elif channel.Icon == "icon-heat_regul":
+        elif channel.icon == "icon-heat_regul":
             entity = Climate(name)
             # find the matching sensor for the climate entity
-            for otherChannel in project.channels:
-                if (
-                    otherChannel.Icon == "icon-indoor_temperature"
-                    and otherChannel.serialNumber == channel.serialNumber
-                ):
-                    for otherDatapoint in otherChannel.datapoints:
-                        if otherDatapoint.name == "Indoor temperature":
-                            address = otherDatapoint.get_lowest_address()
-                            if address is not None:
-                                setattr(entity, "temperature_address", address)
-                            break
+            address = find_sensor_address(project, channel.serial_number)
+            setattr(entity, "temperature_address", address)
         else:
             continue
 
