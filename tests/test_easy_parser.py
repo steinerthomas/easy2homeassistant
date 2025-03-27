@@ -10,6 +10,10 @@ from homeassistant_entities import convert_project_to_entities
 class TestXMLParser(unittest.TestCase):
     """Tests for XMLParser."""
 
+    def setUp(self):
+        """Set up the test case."""
+        self.maxDiff = None  # Allow full diff output for assertions
+
     def test_xml_parser_channels_xml(self):
         """Test the XMLParser with a Channels.xml and Products.xml file."""
 

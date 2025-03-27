@@ -20,6 +20,10 @@ sensor:
     state_address: 1
     type: temperature
     state_class: measurement
+  - name: "Office temperature"
+    state_address: 50789
+    type: temperature
+    state_class: measurement
 climate:
 - name: "Office temperature controller"
   temperature_address: 50789
