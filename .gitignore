@@ -175,6 +175,6 @@ easy2homeassistant.onefile-build/
 easy2homeassistant.exe
 
 # easy2homeassistant test data
-easy-project.txa
+projects/
 knx.yaml
 easy2homeassistant.log

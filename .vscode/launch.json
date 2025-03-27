@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "easy2homeassistant/easy2homeassistant.py",
             "console": "integratedTerminal",
-            "args":["-i", "easy-project.txa", "-o", "knx.yaml", "-l", "INFO"],
+            "args":["-i", "projects/easy-project.txa", "-o", "projects/knx.yaml", "-l", "INFO"],
         }
     ]
 }
