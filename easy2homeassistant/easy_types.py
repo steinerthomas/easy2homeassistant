@@ -41,7 +41,7 @@ class Product:
     """A data class to represent a product."""
 
     name: str = ""
-    serialNumber: str = ""
+    serial_number: str = ""
 
 
 @dataclass

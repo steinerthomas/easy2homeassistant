@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
 
-from easy_types import Project
+from easy_types import Channel, Project
 
 
 class EntityKind(Enum):
@@ -190,6 +190,33 @@ def find_sensor_address(project: Project, serial_number: str) -> int:
     return 0
 
 
+def create_entity(project: Project, channel: Channel) -> Optional[object]:
+    """Create an entity based on the icon."""
+    name = channel.name
+    icon = channel.icon
+
+    if icon == "icon-shutter":
+        return Cover(name)
+    elif icon in ("icon-light", "icon-dimmer"):
+        return Light(name)
+    elif icon == "icon-indoor_temperature":
+        if name == "":
+            # in case of an unnamed sensor fallback to the product name
+            for product in project.products:
+                if product.serial_number == channel.serial_number:
+                    name = product.name
+                    break
+        return TemperatureSensor(name)
+    elif icon == "icon-heat_regul":
+        climate = Climate(name)
+        # find the matching sensor for the climate entity
+        address = find_sensor_address(project, channel.serial_number)
+        setattr(climate, "temperature_address", address)
+        return climate
+    else:
+        return None
+
+
 def convert_project_to_entities(project: Project) -> Entities:
     """Convert a project to a list of entities."""
     entities = Entities()
@@ -198,26 +225,8 @@ def convert_project_to_entities(project: Project) -> Entities:
         if not channel.is_valid():
             continue
 
-        name = channel.name
-
-        if channel.icon == "icon-shutter":
-            entity = Cover(name)
-        elif channel.icon in ("icon-light", "icon-dimmer"):
-            entity = Light(name)
-        elif channel.icon == "icon-indoor_temperature":
-            if name == "":
-                # in case of an unnamed sensor fallback to the product name
-                for product in project.products:
-                    if product.serialNumber == channel.serial_number:
-                        name = product.name
-                        break
-            entity = TemperatureSensor(name)
-        elif channel.icon == "icon-heat_regul":
-            entity = Climate(name)
-            # find the matching sensor for the climate entity
-            address = find_sensor_address(project, channel.serial_number)
-            setattr(entity, "temperature_address", address)
-        else:
+        entity = create_entity(project, channel)
+        if entity is None:
             continue
 
         for datapoint in channel.datapoints:

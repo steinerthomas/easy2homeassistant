@@ -109,7 +109,7 @@ class XMLParser:
         self.project.products.append(Product())
         for prop in product.findall("property"):
             if prop.get("key") == "SerialNumber":
-                self.project.products[-1].serialNumber = prop.get("value")
+                self.project.products[-1].serial_number = prop.get("value")
             elif prop.get("key") == "product.name":
                 self.project.products[-1].name = prop.get("value")
 
