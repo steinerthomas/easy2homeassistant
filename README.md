@@ -1,7 +1,7 @@
 # easy2homeassistant [![codecov](https://codecov.io/github/steinerthomas/easy2homeassistant/graph/badge.svg)](https://codecov.io/github/steinerthomas/easy2homeassistant)
 This python script parses a KNX easy configuration and converts it to a [HomeAssistant KNX Integration](https://www.home-assistant.io/integrations/knx) yaml configuration.
 
-HomeAssistant [covers](https://www.home-assistant.io/integrations/knx/#cover), [lights](https://www.home-assistant.io/integrations/knx/#light), (temperature) [sensors](https://www.home-assistant.io/integrations/knx/#sensor) and [climate](https://www.home-assistant.io/integrations/knx/#climate) are supported.
+HomeAssistant [covers](https://www.home-assistant.io/integrations/knx/#cover), [lights](https://www.home-assistant.io/integrations/knx/#light), (temperature) [sensors](https://www.home-assistant.io/integrations/knx/#sensor), [climate](https://www.home-assistant.io/integrations/knx/#climate) and [weather](https://www.home-assistant.io/integrations/knx/#weather) are supported.
 
 **Next steps / TODOs:**
 
@@ -116,6 +116,18 @@ A list of currently supported variables parsed from the easy installation export
 
 The `Indoor temperature` is used from the [Temperature Sensors](#Temperature-Sensors)
 
+#### Weather station
+| easy installation export name (all languages) | HomeAssistant variable      |
+| --------------------------------------------- | --------------------------- |
+| Luminosity                                    | - (address_brightness_*)    |
+| Wind alarm 1                                  | address_wind_alarm          |
+| Wind alarm 2                                  | - (address_wind_alarm list) |
+| Wind alarm 3                                  | - (address_wind_alarm list) |
+| Frost alarm                                   | address_frost_alarm         |
+| Rain alarm                                    | address_rain_alarm          |
+| Day/Night                                     | address_day_night           |
+| Wind speed                                    | address_wind_speed          |
+| Outdoor temperature                           | address_temperature         |
 
 ### Configure HomeAssistant
 Include generated HomeAssistant configuration to your HomeAssistant installation. Now all entities should show up in the Overview Dashboard. Create your own Dashboards to group your entities.
@@ -162,6 +174,21 @@ climate:
   heat_cool_state_address: 50543 # Heat/Cool status
   on_off_address: 50578 # On/Off
 # ...
+weather:
+- name: "Weather"
+  address_temperature: 61440 # Outdoor temperature
+  #address_brightness_south: 61442 # Luminosity - not parsed/implemented
+  #address_brightness_west: 61442 # Luminosity - not parsed/implemented
+  #address_brightness_east: 61442 # Luminosity - not parsed/implemented
+  #address_brightness_north: 61442 # Luminosity - not parsed/implemented
+  address_wind_speed: 61441 # Wind speed
+  address_rain_alarm: 61451 # Rain alarm
+  address_frost_alarm: 61452 # Frost alarm
+  address_wind_alarm: 61448 # Wind alarm 1
+  #- 61448 # Wind alarm 1 - could be a list, not implemented
+  #- 61449 # Wind alarm 2 - not parsed/implemented
+  #- 61450 # Wind alarm 3 - not parsed/implemented
+  address_day_night: 61443 # Day/Night
 ```
 
 #### configuration.yaml
