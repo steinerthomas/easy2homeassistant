@@ -35,3 +35,11 @@ climate:
   heat_cool_address: 5419
   heat_cool_state_address: 50543
   on_off_address: 50578
+weather:
+- name: "Weather"
+  address_temperature: 61440
+  address_wind_speed: 61441
+  address_rain_alarm: 61451
+  address_frost_alarm: 61452
+  address_wind_alarm: 61448
+  address_day_night: 61443

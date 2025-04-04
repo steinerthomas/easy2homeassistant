@@ -745,38 +745,10 @@
     </config>
   </config>
   <config name="-5941336899583915984">
-    <property key="isFpl" value="false" type="boolean"/>
-    <property key="Use" value="OTHER" type="string"/>
-    <property key="isLogical" value="false" type="boolean"/>
-    <property key="Landmark" value="" type="string"/>
-    <property key="isInfrared" value="false" type="boolean"/>
-    <property key="isSensor" value="false" type="boolean"/>
-    <property key="Index" value="5" type="int"/>
-    <property key="Last-Modified" value="1579360407241" type="long"/>
-    <property key="isSupervisable" value="false" type="boolean"/>
     <property key="Name" value="" type="string"/>
-    <property key="isLedcontrol" value="false" type="boolean"/>
-    <property key="isExportable" value="false" type="boolean"/>
-    <property key="isBattery" value="false" type="boolean"/>
-    <property key="BaseOffSet" value="91" type="int"/>
-    <property key="objectIndex" value="11" type="int"/>
-    <property key="State" value="OK" type="string"/>
-    <property key="channeltype" value="0006A0020800" type="string"/>
-    <property key="isDevice" value="false" type="boolean"/>
-    <property key="isMasterslave" value="true" type="boolean"/>
     <property key="Icon" value="icon-clock" type="string"/>
-    <property key="SubUnit" value="-1" type="int"/>
-    <property key="createDate" value="2020-01-18T16:01:37.628+01:00" type="string"/>
-    <property key="Location" value="-6064750147372957612" type="string"/>
     <config name="Context">
-      <property key="product.profile" value="1" type="int"/>
-      <property key="product.media" value="0" type="int"/>
-      <property key="product.catalogRef" value="0006E07A1100" type="string"/>
-      <property key="product.id" value="-6154251420738696955" type="long"/>
-      <property key="product.address" value="0.2.38" type="string"/>
-      <property key="product.serialNumber" value="0006400A70D1" type="string"/>
-      <property key="configurationObjectIndex" value="5" type="string"/>
-      <property key="product.channelInfo" value="0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00" type="byte[]"/>
+      <property key="product.serialNumber" value="heatRegul" type="string"/>
     </config>
     <config name="FunctionalBlocks">
       <config name="8802697989562646900">
@@ -784,10 +756,7 @@
         </config>
         <config name="datapoints">
           <config name="-7798537092000955558">
-            <property key="catalogId" value="2" type="int"/>
-            <property key="supervisable" value="false" type="boolean"/>
             <property key="name" value="Time" type="string"/>
-            <property key="aDPTNumber" value="2" type="int"/>
             <config name="groupAddresses">
               <config name="61479">
                 <property key="type" value="AUTO_LINK" type="string"/>
@@ -795,10 +764,7 @@
             </config>
           </config>
           <config name="6121061064693860177">
-            <property key="catalogId" value="3" type="int"/>
-            <property key="supervisable" value="false" type="boolean"/>
             <property key="name" value="Date and time" type="string"/>
-            <property key="aDPTNumber" value="3" type="int"/>
             <config name="groupAddresses">
               <config name="61477">
                 <property key="type" value="AUTO_LINK" type="string"/>
@@ -812,10 +778,7 @@
             </config>
           </config>
           <config name="221482625178486016">
-            <property key="catalogId" value="4" type="int"/>
-            <property key="supervisable" value="false" type="boolean"/>
             <property key="name" value="Date and time request" type="string"/>
-            <property key="aDPTNumber" value="4" type="int"/>
             <config name="groupAddresses">
               <config name="61481">
                 <property key="type" value="AUTO_LINK" type="string"/>
@@ -823,9 +786,6 @@
             </config>
           </config>
           <config name="-4293591552782875148">
-            <property key="catalogId" value="1" type="int"/>
-            <property key="supervisable" value="false" type="boolean"/>
-            <property key="aDPTNumber" value="1" type="int"/>
             <property key="name" value="Date" type="string"/>
             <config name="groupAddresses">
               <config name="61478">
@@ -837,5 +797,89 @@
       </config>
     </config>
   </config>
-
+  <config name="-5920577715282296615">
+    <property key="Name" value="Weather" type="string"/>
+    <property key="Icon" value="icon-day_night" type="string"/>
+    <config name="Context">
+      <property key="product.serialNumber" value="weather" type="string"/>
+    </config>
+    <config name="FunctionalBlocks">
+      <config name="9171504082068065835">
+        <config name="datapoints">
+          <config name="-790627739006382798">
+            <property key="name" value="Luminosity" type="string"/>
+            <config name="groupAddresses">
+              <config name="61442">
+                <property key="type" value="AUTO_LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="5660229212236172466">
+            <property key="name" value="Wind alarm 2" type="string"/>
+            <config name="groupAddresses">
+              <config name="61449">
+                <property key="type" value="AUTO_LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-5965106965004531428">
+            <property key="name" value="Wind alarm 1" type="string"/>
+            <config name="groupAddresses">
+              <config name="61448">
+                <property key="type" value="AUTO_LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="5498941108859258817">
+            <property key="name" value="Wind alarm 3" type="string"/>
+            <config name="groupAddresses">
+              <config name="61450">
+                <property key="type" value="AUTO_LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-9182151144182298610">
+            <property key="name" value="Frost alarm" type="string"/>
+            <config name="groupAddresses">
+              <config name="61452">
+                <property key="type" value="AUTO_LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="1495179134893900137">
+            <property key="name" value="Rain alarm" type="string"/>
+            <config name="groupAddresses">
+              <config name="61451">
+                <property key="type" value="AUTO_LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-4782379002877884435">
+            <property key="name" value="Day/Night" type="string"/>
+            <config name="groupAddresses">
+              <config name="61443">
+                <property key="type" value="AUTO_LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="-2409065310745178454">
+            <property key="name" value="Wind speed" type="string"/>
+            <config name="groupAddresses">
+              <config name="61441">
+                <property key="type" value="AUTO_LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+          <config name="7753947194618170789">
+            <property key="name" value="Outdoor temperature" type="string"/>
+            <config name="groupAddresses">
+              <config name="61440">
+                <property key="type" value="AUTO_LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+        </config>
+      </config>
+    </config>
+  </config>
 </config>
