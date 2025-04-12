@@ -78,22 +78,13 @@ def main():
         if channels_xml_file is None:
             return
 
-        products_xml_file = get_configuration_xml_file(temp_dir, "Products.xml")
-        if products_xml_file is None:
-            return
-
         schemes_path = os.path.join(package_directory, "resources", "schemes")
         validator = XMLValidator(schemes_path)
         if not validator.validate(channels_xml_file):
             logger.error("Scheme validation of '%s' failed!", channels_xml_file)
             return
 
-        if not validator.validate(products_xml_file):
-            logger.error("Scheme validation of '%s' failed!", products_xml_file)
-            return
-
         parser = XMLParser()
-        parser.parse_products_xml(products_xml_file)
         parser.parse_channels_xml(channels_xml_file)
         project = parser.get_project()
 
