@@ -264,7 +264,7 @@ def create_entity(project: Project, channel: Channel) -> Optional[object]:
     return None
 
 
-def convert_project_to_entities(project: Project, sort: bool) -> Entities:
+def convert_project_to_entities(project: Project, sort: bool = False) -> Entities:
     """Convert a project to a list of entities."""
     entities = Entities()
 
