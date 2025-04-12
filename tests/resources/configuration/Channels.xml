@@ -375,7 +375,7 @@
     </config>
   </config>
   <config name="1">
-    <property key="Name" value="" type="string"/>
+    <property key="Name" value="Switch with temp sensor" type="string"/>
     <property key="Icon" value="icon-indoor_temperature" type="string"/>
     <config name="Context">
       <property key="product.serialNumber" value="ABC123" type="string"/>
