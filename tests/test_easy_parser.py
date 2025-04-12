@@ -24,6 +24,7 @@ class TestXMLParser(unittest.TestCase):
         products_xml_file = "tests/resources/configuration/Products.xml"
         expected_output_file = "tests/resources/output.yaml"
 
+        # Products.xml is not required anymore, but for testing we keep it
         parser.parse_products_xml(products_xml_file)
         parser.parse_channels_xml(channels_xml_file)
         project = parser.get_project()
