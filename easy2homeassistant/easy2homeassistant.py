@@ -41,6 +41,11 @@ def parse_arguments():
         default="INFO",
         help="Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL).",
     )
+    arg_parser.add_argument(
+        "--sort",
+        action=argparse.BooleanOptionalAction,
+        help="Sort the output YAML file by entity name.",
+    )
 
     return arg_parser.parse_args()
 
@@ -92,7 +97,7 @@ def main():
         parser.parse_channels_xml(channels_xml_file)
         project = parser.get_project()
 
-        entities = convert_project_to_entities(project)
+        entities = convert_project_to_entities(project, args.sort)
 
         yaml_configuration = args.output
         logger.info("Exporting entities to '%s'", yaml_configuration)
