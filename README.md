@@ -17,9 +17,9 @@ Use pre-built binary or setup following software/packages on your environment:
 - connection to Hager TJA670/TJA470 domovea Basic Server/Expert Server configured
 
 ## Usage
-`python easy2homeassistant.py -i <project-name>.txa -o <output-filename>.yaml`
+`python easy2homeassistant.py -i <project-name>.txa -o <output-filename>.yaml --sort`
 
-`easy2homeassistant.exe -i <project-name>.txa -o <output-filename>.yaml`
+`easy2homeassistant.exe -i <project-name>.txa -o <output-filename>.yaml --sort`
 
 ### Parameters
 | Flag | Name       | Description                        | Examples                                                        |
@@ -27,6 +27,7 @@ Use pre-built binary or setup following software/packages on your environment:
 | -i   | --input    | KNX easy installation export (txa) | easy-project.txa                                                |
 | -o   | --output   | HomeAssistant KNX config (yaml)    | knx.yaml                                                        |
 | -l   | --loglevel | Logging level                      | defaults to INFO, levels: DEBUG, INFO, WARNING, ERROR, CRITICAL |
+|      | --sort     | Sort output by entity name         | default: no sorting (as parsed)                                 |
 
 ## Export easy project
 easy2homeassistant uses the easy instatallation export (txa). Channels which should be available for HomeAssistant, must have a name and the flag "Export to domovea" set.

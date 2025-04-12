@@ -213,6 +213,14 @@ class Entities:
         # else:
         #    logger.critical("Invalid entity '%s'", entity)
 
+    def sort(self):
+        """Sort the entities."""
+        self.light.sort(key=lambda x: x.name)
+        self.cover.sort(key=lambda x: x.name)
+        self.sensor.sort(key=lambda x: x.name)
+        self.climate.sort(key=lambda x: x.name)
+        self.weather.sort(key=lambda x: x.name)
+
 
 def find_sensor_address(project: Project, serial_number: str) -> int:
     """Find the address of a sensor by its serial number."""
@@ -256,7 +264,7 @@ def create_entity(project: Project, channel: Channel) -> Optional[object]:
     return None
 
 
-def convert_project_to_entities(project: Project) -> Entities:
+def convert_project_to_entities(project: Project, sort: bool = False) -> Entities:
     """Convert a project to a list of entities."""
     entities = Entities()
 
@@ -283,5 +291,8 @@ def convert_project_to_entities(project: Project) -> Entities:
         if entity and entity.is_valid():
             entities.add_entity(entity)
         entity = None
+
+    if sort:
+        entities.sort()
 
     return entities
