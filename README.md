@@ -29,6 +29,8 @@ Use pre-built binary or setup following software/packages on your environment:
 | -l   | --loglevel | Logging level                      | defaults to INFO, levels: DEBUG, INFO, WARNING, ERROR, CRITICAL |
 
 ## Export easy project
+easy2homeassistant uses the easy instatallation export (txa). Channels which should be available for HomeAssistant, must have a name and the flag "Export to domovea" set.
+
 1. Open your local domovea installation in your browser
 2. Go to easytool > DETAIL
 3. Export > Save installation
