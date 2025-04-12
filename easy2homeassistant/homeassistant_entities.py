@@ -1,10 +1,14 @@
 """A module to convert parsed data into homeassistant entities."""
 
+import logging
+
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
 
 from easy_types import Channel, Project
+
+logger = logging.getLogger(__name__)
 
 
 class EntityKind(Enum):
@@ -210,8 +214,8 @@ class Entities:
             self.climate.append(entity)
         elif isinstance(entity, Weather):
             self.weather.append(entity)
-        # else:
-        #    logger.critical("Invalid entity '%s'", entity)
+        else:
+            logger.critical("Invalid entity '%s'", entity)
 
     def sort(self):
         """Sort the entities."""

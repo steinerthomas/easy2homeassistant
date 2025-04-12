@@ -8,7 +8,6 @@ from easy_types import Channel, Datapoint, Product, Project
 logger = logging.getLogger(__name__)
 
 
-# xml parsing
 class XMLParser:
     """A class to parse an easy project xml file."""
 
@@ -20,7 +19,6 @@ class XMLParser:
         for config in group_addresses.findall("config"):
             address = config.get("name")
 
-            logger.debug("Parse group address '%s'", address)
             try:
                 numeric_address = int(address)
                 self.project.channels[-1].datapoints[-1].group_addresses.append(
@@ -28,6 +26,27 @@ class XMLParser:
                 )
             except ValueError:
                 logger.warning("Skip invalid groupAddress '%s'", address)
+
+        if (
+            self.project.channels[-1].datapoints[-1].name != ""
+            and self.project.channels[-1].name != ""
+            and self.project.channels[-1].datapoints[-1].group_addresses != []
+        ):
+            logger.info(
+                "Found: channel '%s' (%s), datapoint '%s', addresses '%s'",
+                self.project.channels[-1].name,
+                self.project.channels[-1].icon,
+                self.project.channels[-1].datapoints[-1].name,
+                self.project.channels[-1].datapoints[-1].group_addresses,
+            )
+        else:
+            logger.debug(
+                "Found empty: channel '%s' (%s), datapoint '%s', addresses '%s'",
+                self.project.channels[-1].name,
+                self.project.channels[-1].icon,
+                self.project.channels[-1].datapoints[-1].name,
+                self.project.channels[-1].datapoints[-1].group_addresses,
+            )
 
     def parse_datapoints(self, datapoints):
         """Parse datapoints and set them on the currently parsed channel."""
@@ -37,7 +56,9 @@ class XMLParser:
 
             for prop in config.findall("property"):
                 if prop.get("key") == "name":
-                    self.project.channels[-1].datapoints[-1].name = prop.get("value")
+                    name = prop.get("value")
+                    self.project.channels[-1].datapoints[-1].name = name
+
             # parse group addresses
             self.parse_config(config)
 
