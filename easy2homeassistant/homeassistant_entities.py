@@ -245,12 +245,6 @@ def create_entity(project: Project, channel: Channel) -> Optional[object]:
     if icon in ("icon-light", "icon-dimmer"):
         return Light(name)
     if icon == "icon-indoor_temperature":
-        if name == "":
-            # in case of an unnamed sensor fallback to the product name
-            for product in project.products:
-                if product.serial_number == channel.serial_number:
-                    name = product.name
-                    break
         return TemperatureSensor(name)
     if icon == "icon-heat_regul":
         climate = Climate(name)
