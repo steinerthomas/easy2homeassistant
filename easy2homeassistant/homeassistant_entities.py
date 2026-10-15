@@ -20,6 +20,7 @@ class EntityKind(Enum):
     TEMPERATURE_SENSOR = 3
     CLIMATE = 4
     WEATHER = 5
+    SWITCH = 6
 
     def __str__(self):
         return f"{self.name} ({self.value})"
@@ -143,6 +144,22 @@ class Weather:
 
 
 @dataclass
+class Switch:
+    """A data class to represent a switch entity."""
+
+    name: str
+    address: int = 0
+
+    def is_valid(self):
+        """Check if the entity is valid."""
+        return self.name != "" and self.address != 0
+
+    def get_kind(self):
+        """Return the entity kind."""
+        return EntityKind.SWITCH
+
+
+@dataclass
 class Entities:
     """A data class to represent a collection of entities."""
 
@@ -187,12 +204,17 @@ class Entities:
         "Day/Night": "address_day_night",
     }
 
+    SWITCH_ADDRESS_MAP = {
+        "On/Off": "address",
+    }
+
     ADDRESS_MAP = {
         EntityKind.LIGHT: LIGHT_ADDRESS_MAP,
         EntityKind.COVER: COVER_ADDRESS_MAP,
         EntityKind.TEMPERATURE_SENSOR: SENSOR_ADDRESS_MAP,
         EntityKind.CLIMATE: CLIMATE_ADDRESS_MAP,
         EntityKind.WEATHER: WEATHER_ADDRESS_MAP,
+        EntityKind.SWITCH: SWITCH_ADDRESS_MAP,
     }
 
     light: List = field(default_factory=list)
@@ -200,6 +222,7 @@ class Entities:
     sensor: List = field(default_factory=list)
     climate: List = field(default_factory=list)
     weather: List = field(default_factory=list)
+    switch: List = field(default_factory=list)
 
     def add_entity(self, entity):
         """Add an entity to the corresponding list."""
@@ -214,6 +237,8 @@ class Entities:
             self.climate.append(entity)
         elif isinstance(entity, Weather):
             self.weather.append(entity)
+        elif isinstance(entity, Switch):
+            self.switch.append(entity)
         else:
             logger.critical("Invalid entity '%s'", entity)
 
@@ -224,6 +249,7 @@ class Entities:
         self.sensor.sort(key=lambda x: x.name)
         self.climate.sort(key=lambda x: x.name)
         self.weather.sort(key=lambda x: x.name)
+        self.switch.sort(key=lambda x: x.name)
 
 
 def find_sensor_address(project: Project, serial_number: str) -> int:
@@ -237,6 +263,14 @@ def find_sensor_address(project: Project, serial_number: str) -> int:
                 if datapoint.name == "Indoor temperature":
                     return datapoint.get_lowest_address()
     return 0
+
+
+def is_switch(channel: Channel) -> bool:
+    """Check if the channel is a switch."""
+    for parameter in channel.parameters:
+        if parameter.name.startswith("catalog.parameter.Switchvalue"):
+            return True
+    return False
 
 
 def create_entity(project: Project, channel: Channel) -> Optional[object]:
@@ -258,6 +292,8 @@ def create_entity(project: Project, channel: Channel) -> Optional[object]:
         return climate
     if icon == "icon-day_night":
         return Weather(name)
+    if is_switch(channel):
+        return Switch(name)
 
     return None
 
