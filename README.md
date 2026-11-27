@@ -1,13 +1,12 @@
 # easy2homeassistant [![codecov](https://codecov.io/github/steinerthomas/easy2homeassistant/graph/badge.svg)](https://codecov.io/github/steinerthomas/easy2homeassistant)
 This python script parses a KNX easy configuration and converts it to a [HomeAssistant KNX Integration](https://www.home-assistant.io/integrations/knx) yaml configuration.
 
-HomeAssistant [covers](https://www.home-assistant.io/integrations/knx/#cover), [lights](https://www.home-assistant.io/integrations/knx/#light), (temperature) [sensors](https://www.home-assistant.io/integrations/knx/#sensor), [climate](https://www.home-assistant.io/integrations/knx/#climate) and [weather](https://www.home-assistant.io/integrations/knx/#weather) are supported.
+HomeAssistant [covers](https://www.home-assistant.io/integrations/knx/#cover), [lights](https://www.home-assistant.io/integrations/knx/#light), (temperature) [sensors](https://www.home-assistant.io/integrations/knx/#sensor), [climate](https://www.home-assistant.io/integrations/knx/#climate), [weather](https://www.home-assistant.io/integrations/knx/#weather), [switches](https://www.home-assistant.io/integrations/knx/#switch) and [binary sensors](https://www.home-assistant.io/integrations/knx/#binary-sensor) are supported.
 
 **Next steps / TODOs:**
 
 - [ ] Improve entity kind parsing (do not use icons?)
 - [ ] Handle Timer addresses for lights?
-- [ ] Switches ("inputs") in general, e.g. "Central off"
 
 ## Prerequisites
 Use pre-built binary or setup following software/packages on your environment:
@@ -132,6 +131,20 @@ The `Indoor temperature` is used from the [Temperature Sensors](#Temperature-Sen
 | Wind speed                                    | address_wind_speed          |
 | Outdoor temperature                           | address_temperature         |
 
+#### Switch
+Switch channels are identified by the channel parameter `catalog.parameter.Switchvalue*` (e.g. switch actuators, central switch channels).
+
+| easy installation export name (all languages) | HomeAssistant variable |
+| --------------------------------------------- | ---------------------- |
+| On/Off                                        | address                |
+
+#### Binary Sensor
+Binary sensor channels (e.g. reed contacts, motion detectors used as contacts) are identified by the channel parameter `catalog.parameter.Invertinput`, which distinguishes them from [switch](#Switch) channels.
+
+| easy installation export name (all languages) | HomeAssistant variable |
+| --------------------------------------------- | ---------------------- |
+| On/Off                                        | state_address          |
+
 ### Configure HomeAssistant
 Include generated HomeAssistant configuration to your HomeAssistant installation. Now all entities should show up in the Overview Dashboard. Create your own Dashboards to group your entities.
 
@@ -192,6 +205,12 @@ weather:
   #- 61449 # Wind alarm 2 - not parsed/implemented
   #- 61450 # Wind alarm 3 - not parsed/implemented
   address_day_night: 61443 # Day/Night
+switch:
+- name: "Central switch"
+  address: 5221 # 2/4/101 - On/Off
+binary_sensor:
+- name: "Reed contact"
+  state_address: 50263 # 24/4/87 - On/Off
 ```
 
 #### configuration.yaml
