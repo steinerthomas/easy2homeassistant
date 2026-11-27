@@ -40,6 +40,28 @@ class TestXMLParser(unittest.TestCase):
 
         self.assertEqual(actual_output, expected_output)
 
+    def test_switch_channel_is_converted_to_switch_entity(self):
+        """Test that a channel with switch parameters becomes a switch entity."""
+
+        parser = XMLParser()
+        parser.parse_products_xml("tests/resources/configuration/Products.xml")
+        parser.parse_channels_xml("tests/resources/configuration/Channels.xml")
+        project = parser.get_project()
+
+        entities = convert_project_to_entities(project)
+
+        self.assertEqual(len(entities.switch), 1)
+        switch = entities.switch[0]
+        self.assertEqual(switch.name, "Central switch")
+        self.assertEqual(switch.address, 21)
+
+        # the switch channel must not end up in any other entity list
+        self.assertEqual(len(entities.light), 2)
+        self.assertEqual(len(entities.cover), 1)
+        self.assertEqual(len(entities.sensor), 2)
+        self.assertEqual(len(entities.climate), 1)
+        self.assertEqual(len(entities.weather), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

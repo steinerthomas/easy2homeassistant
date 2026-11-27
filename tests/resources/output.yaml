@@ -43,3 +43,6 @@ weather:
   address_frost_alarm: 61452
   address_wind_alarm: 61448
   address_day_night: 61443
+switch:
+- name: "Central switch"
+  address: 21
