@@ -76,7 +76,7 @@ class XMLParser:
             return
 
         name = config.get("name")
-        if name in ("Parameters"):
+        if name == "Parameters":
             logger.debug("Skip '%s'", name)
             return
         if name == "datapoints":
