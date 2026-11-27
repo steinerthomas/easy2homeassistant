@@ -23,6 +23,17 @@ class Datapoint:
 
 
 @dataclass
+class Parameter:
+    """A data class to represent a Parameter."""
+
+    name: str = ""
+
+    def is_valid(self):
+        """Check if the datapoint is valid."""
+        return self.name != ""
+
+
+@dataclass
 class Channel:
     """A data class to represent a channel."""
 
@@ -30,6 +41,7 @@ class Channel:
     icon: str = ""
     serial_number: str = ""
     datapoints: List[Datapoint] = field(default_factory=list)
+    parameters: List[Parameter] = field(default_factory=list)
 
     def is_valid(self):
         """Check if the channel is valid."""

@@ -3,7 +3,7 @@
 import logging
 import xml.etree.ElementTree as ET
 
-from easy_types import Channel, Datapoint, Product, Project
+from easy_types import Channel, Datapoint, Parameter, Product, Project
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +62,16 @@ class XMLParser:
             # parse group addresses
             self.parse_config(config)
 
+    def parse_parameters(self, parameters):
+        """Parse Parameters and set them on the currently parsed channel."""
+
+        for config in parameters.findall("config"):
+            self.project.channels[-1].parameters.append(Parameter())
+
+            for prop in config.findall("property"):
+                if prop.get("key") == "name":
+                    self.project.channels[-1].parameters[-1].name = prop.get("value")
+
     def parse_context(self, context):
         """Parse a context element and set the serial number on the currently parsed channel."""
         for prop in context.findall("property"):
@@ -77,7 +87,7 @@ class XMLParser:
 
         name = config.get("name")
         if name == "Parameters":
-            logger.debug("Skip '%s'", name)
+            self.parse_parameters(config)
             return
         if name == "datapoints":
             self.parse_datapoints(config)

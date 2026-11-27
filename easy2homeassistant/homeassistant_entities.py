@@ -20,6 +20,8 @@ class EntityKind(Enum):
     TEMPERATURE_SENSOR = 3
     CLIMATE = 4
     WEATHER = 5
+    SWITCH = 6
+    BINARY_SENSOR = 7
 
     def __str__(self):
         return f"{self.name} ({self.value})"
@@ -143,6 +145,38 @@ class Weather:
 
 
 @dataclass
+class Switch:
+    """A data class to represent a switch entity."""
+
+    name: str
+    address: int = 0
+
+    def is_valid(self):
+        """Check if the entity is valid."""
+        return self.name != "" and self.address != 0
+
+    def get_kind(self):
+        """Return the entity kind."""
+        return EntityKind.SWITCH
+
+
+@dataclass
+class BinarySensor:
+    """A data class to represent a binary sensor entity."""
+
+    name: str
+    state_address: int = 0
+
+    def is_valid(self):
+        """Check if the entity is valid."""
+        return self.name != "" and self.state_address != 0
+
+    def get_kind(self):
+        """Return the entity kind."""
+        return EntityKind.BINARY_SENSOR
+
+
+@dataclass
 class Entities:
     """A data class to represent a collection of entities."""
 
@@ -187,12 +221,22 @@ class Entities:
         "Day/Night": "address_day_night",
     }
 
+    SWITCH_ADDRESS_MAP = {
+        "On/Off": "address",
+    }
+
+    BINARY_SENSOR_ADDRESS_MAP = {
+        "On/Off": "state_address",
+    }
+
     ADDRESS_MAP = {
         EntityKind.LIGHT: LIGHT_ADDRESS_MAP,
         EntityKind.COVER: COVER_ADDRESS_MAP,
         EntityKind.TEMPERATURE_SENSOR: SENSOR_ADDRESS_MAP,
         EntityKind.CLIMATE: CLIMATE_ADDRESS_MAP,
         EntityKind.WEATHER: WEATHER_ADDRESS_MAP,
+        EntityKind.SWITCH: SWITCH_ADDRESS_MAP,
+        EntityKind.BINARY_SENSOR: BINARY_SENSOR_ADDRESS_MAP,
     }
 
     light: List = field(default_factory=list)
@@ -200,6 +244,8 @@ class Entities:
     sensor: List = field(default_factory=list)
     climate: List = field(default_factory=list)
     weather: List = field(default_factory=list)
+    switch: List = field(default_factory=list)
+    binary_sensor: List = field(default_factory=list)
 
     def add_entity(self, entity):
         """Add an entity to the corresponding list."""
@@ -214,6 +260,10 @@ class Entities:
             self.climate.append(entity)
         elif isinstance(entity, Weather):
             self.weather.append(entity)
+        elif isinstance(entity, Switch):
+            self.switch.append(entity)
+        elif isinstance(entity, BinarySensor):
+            self.binary_sensor.append(entity)
         else:
             logger.critical("Invalid entity '%s'", entity)
 
@@ -224,6 +274,8 @@ class Entities:
         self.sensor.sort(key=lambda x: x.name)
         self.climate.sort(key=lambda x: x.name)
         self.weather.sort(key=lambda x: x.name)
+        self.switch.sort(key=lambda x: x.name)
+        self.binary_sensor.sort(key=lambda x: x.name)
 
 
 def find_sensor_address(project: Project, serial_number: str) -> int:
@@ -239,25 +291,52 @@ def find_sensor_address(project: Project, serial_number: str) -> int:
     return 0
 
 
+def is_switch(channel: Channel) -> bool:
+    """Check if the channel is a switch."""
+    for parameter in channel.parameters:
+        if parameter.name.startswith("catalog.parameter.Switchvalue"):
+            return True
+    return False
+
+
+def is_binary_sensor(channel: Channel) -> bool:
+    """Check if the channel is a binary sensor.
+
+    Binary sensor channels have an invert input parameter, in contrast to switch channels.
+    """
+    for parameter in channel.parameters:
+        if parameter.name == "catalog.parameter.Invertinput":
+            return True
+    return False
+
+
+ICON_ENTITY_MAP = {
+    "icon-shutter": Cover,
+    "icon-light": Light,
+    "icon-dimmer": Light,
+    "icon-indoor_temperature": TemperatureSensor,
+    "icon-day_night": Weather,
+}
+
+
 def create_entity(project: Project, channel: Channel) -> Optional[object]:
     """Create an entity based on the icon."""
     name = channel.name
     icon = channel.icon
 
-    if icon == "icon-shutter":
-        return Cover(name)
-    if icon in ("icon-light", "icon-dimmer"):
-        return Light(name)
-    if icon == "icon-indoor_temperature":
-        return TemperatureSensor(name)
+    entity_class = ICON_ENTITY_MAP.get(icon)
+    if entity_class is not None:
+        return entity_class(name)
     if icon == "icon-heat_regul":
         climate = Climate(name)
         # find the matching sensor for the climate entity
         address = find_sensor_address(project, channel.serial_number)
         setattr(climate, "temperature_address", address)
         return climate
-    if icon == "icon-day_night":
-        return Weather(name)
+    if is_binary_sensor(channel):
+        return BinarySensor(name)
+    if is_switch(channel):
+        return Switch(name)
 
     return None
 
