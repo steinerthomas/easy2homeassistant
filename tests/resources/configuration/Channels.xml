@@ -911,4 +911,36 @@
       </config>
     </config>
   </config>
+  <config name="987654321098765433">
+    <property key="Name" value="Reed contact" type="string"/>
+    <property key="Icon" value="icon-no_function" type="string"/>
+    <config name="Context">
+      <property key="product.serialNumber" value="SENSOR01" type="string"/>
+    </config>
+    <config name="FunctionalBlocks">
+      <config name="1234567890123456781">
+        <config name="datapoints">
+          <config name="-1">
+            <property key="name" value="On/Off" type="string"/>
+            <config name="groupAddresses">
+              <config name="22">
+                <property key="type" value="LINK" type="string"/>
+              </config>
+            </config>
+          </config>
+        </config>
+        <config name="Parameters">
+          <config name="1">
+            <property key="name" value="catalog.parameter.Switchvalue1" type="string"/>
+          </config>
+          <config name="2">
+            <property key="name" value="catalog.parameter.Enable1" type="string"/>
+          </config>
+          <config name="3">
+            <property key="name" value="catalog.parameter.Invertinput" type="string"/>
+          </config>
+        </config>
+      </config>
+    </config>
+  </config>
 </config>

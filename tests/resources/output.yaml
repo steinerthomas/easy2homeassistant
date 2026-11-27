@@ -46,3 +46,6 @@ weather:
 switch:
 - name: "Central switch"
   address: 21
+binary_sensor:
+- name: "Reed contact"
+  state_address: 22
